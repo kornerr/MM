@@ -1,0 +1,2 @@
+#!/bin/bash
+FLASK_APP=api python3 -m flask run
