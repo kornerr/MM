@@ -1,7 +1,7 @@
-from flask import Flask
-from flask import send_file
+import flask
+import os.path
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 @app.route("/")
 def index():
@@ -16,13 +16,15 @@ def system_info():
 {
     "apiVersion": "2.0.0",
     "domain": {
-        "name": "Оставь надежду, всяк сюда входящий",
-        "logoResourceId": "72F590A0-27EC-4A9F-B1BF-A1F898880F82",
-    },
+        "name": "Тысячелѣтіе Россіи",
+        "logoResourceId": "72F590A0-27EC-4A9F-B1BF-A1F898880F82"
+    }
 }
 """
 
 @app.route("/resource/<string:id>")
 def resource(id):
-    filename = "static/" + id + ".jpg"
-    return send_file(filename, mimetype="image/jpg")
+    filename = "static/{0}.jpg".format(id)
+    if os.path.isfile(filename):
+      return flask.send_file(filename, mimetype="image/jpg")
+    return flask.abort(404)

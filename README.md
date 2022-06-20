@@ -18,7 +18,7 @@ python3 -m pip install flask
 
 ## Installation
 
-Install Flask using PIP if you have Python3 (is shipped with Xcode):
+Install Flask using PIP if you have Python3 (Python is shipped with Xcode):
 
 ```
 python3 -m pip install flask
