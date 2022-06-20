@@ -26,7 +26,7 @@ def system_info():
 
 @app.route("/resource/<string:id>")
 def resource(id):
-    // https://www.pythonanywhere.com/forums/topic/13570/
+    # https://www.pythonanywhere.com/forums/topic/13570/
     filename = "static/{0}.jpg".format(id)
     with open(filename, "rb") as f:
         b = io.BytesIO(f.read())
