@@ -1,16 +1,22 @@
 PODS:
+  - Login (2022.06.24):
+    - LoginUI
   - LoginUI (2022.06.24)
 
 DEPENDENCIES:
+  - Login (from `../mod/Login`)
   - LoginUI (from `../mod/LoginUI`)
 
 EXTERNAL SOURCES:
+  Login:
+    :path: "../mod/Login"
   LoginUI:
     :path: "../mod/LoginUI"
 
 SPEC CHECKSUMS:
+  Login: bf1b9680fe0e8315dafefdd133f2b8d072547cd9
   LoginUI: 123725f49e714733653209d092fc78840ed46ed4
 
-PODFILE CHECKSUM: d2dd4a058dfaa315bb32a8aeec2dd1bff2ff552c
+PODFILE CHECKSUM: 6d55185a1d67d6d5f95dfff950859d4dd472f43e
 
 COCOAPODS: 1.9.1
