@@ -1,8 +1,10 @@
+import Login
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
+  var loginS: Login.Service?
 
   func application(
     _ application: UIApplication,
@@ -11,6 +13,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.rootViewController = ViewController()
     window?.makeKeyAndVisible()
+    setupLogin()
     return true
+  }
+}
+
+extension AppDelegate {
+  private func setupLogin() {
+    loginS = Login.Service()
+    /*удалить*/loginS?.startCore()
   }
 }

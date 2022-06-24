@@ -5,7 +5,7 @@ extension Login {
 
     public init() { }
 
-    private func startCore() {
+    /*удалить public*/public/*private*/ func startCore() {
       let core = Core()
       self.core = core
       core.ui.modalPresentationStyle = .overFullScreen
