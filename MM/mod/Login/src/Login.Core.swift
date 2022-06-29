@@ -4,10 +4,17 @@ import SwiftUI
 
 extension Login {
   public final class Core {
-    public let ui = LoginUI.VC()
+    let ctrl: Controller
+    let ui = LoginUI.VC()
+    var subscriptions = [AnyCancellable]()
     private let vm = LoginUI.VM()
 
     public init() {
+      ctrl =
+        Controller(
+          vm.signIn.eraseToAnyPublisher()
+        )
+
       ui.content = UIHostingController(rootView: LoginUI.V(vm))
     }
   }

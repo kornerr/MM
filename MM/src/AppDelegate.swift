@@ -21,6 +21,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
   private func setupLogin() {
     loginS = Login.Service()
-    /*удалить*/loginS?.startCore()
   }
 }

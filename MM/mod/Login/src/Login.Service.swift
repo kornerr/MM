@@ -1,22 +1,57 @@
+import Combine
+
 extension Login {
   public final class Service {
-    public private(set) var core: Core?
+    private let coreModel = PassthroughSubject<Login.Core.Model, Never>()
+    private let ctrl: Controller
+    private let deleteCore = PassthroughSubject<Void, Never>()
+    private var core: Core?
+    private var subscriptions = [AnyCancellable]()
     private var wnd: UIWindow?
 
-    public init() { }
+    public init() {
+      ctrl =
+        Controller(
+          coreModel.eraseToAnyPublisher(),
+          deleteCore.eraseToAnyPublisher(),
+          Just(false).eraseToAnyPublisher()
+        )
 
-    /*удалить public*/public/*private*/ func startCore() {
+      // Запуск Core.
+      ctrl.m
+        .filter { $0.shouldStartCore }
+        .receive(on: DispatchQueue.main)
+        .sink { _ in self.startCore() }
+        .store(in: &subscriptions)
+
+      // Завершение Core.
+      ctrl.m
+        .filter { $0.isAccessTokenValid }
+        .receive(on: DispatchQueue.main)
+        .sink { _ in self.stopCore() }
+        .store(in: &subscriptions)
+    }
+
+    private func startCore() {
       let core = Core()
       self.core = core
       core.ui.modalPresentationStyle = .overFullScreen
       wnd = Self.createWindow()
       wnd?.rootViewController?.present(core.ui, animated: true)
+
+      // Транслируем модель Core в модель Service.
+      core.ctrl.m
+        .receive(on: DispatchQueue.main)
+        .sink { model in self.coreModel.send(model) }
+        .store(in: &core.subscriptions)
     }
 
     private func stopCore() {
       core?.ui.dismiss(animated: true)
       core = nil
       wnd = nil
+      // Уведомляем модель Service об исчезновении модели Core.
+      deleteCore.send()
     }
 
     private static func createWindow() -> UIWindow {
