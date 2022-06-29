@@ -2,21 +2,26 @@ PODS:
   - Login (2022.06.24):
     - LoginUI
   - LoginUI (2022.06.24)
+  - MPAK (2022.06.29)
 
 DEPENDENCIES:
   - Login (from `../mod/Login`)
   - LoginUI (from `../mod/LoginUI`)
+  - MPAK (from `../mod/MPAK`)
 
 EXTERNAL SOURCES:
   Login:
     :path: "../mod/Login"
   LoginUI:
     :path: "../mod/LoginUI"
+  MPAK:
+    :path: "../mod/MPAK"
 
 SPEC CHECKSUMS:
   Login: bf1b9680fe0e8315dafefdd133f2b8d072547cd9
   LoginUI: 123725f49e714733653209d092fc78840ed46ed4
+  MPAK: 7fc2e250a1bc46544263d5fbe4936de2c5286b10
 
-PODFILE CHECKSUM: 6d55185a1d67d6d5f95dfff950859d4dd472f43e
+PODFILE CHECKSUM: fe68e3ed52c1a512d7669a41ef3f8f442245910e
 
 COCOAPODS: 1.9.1

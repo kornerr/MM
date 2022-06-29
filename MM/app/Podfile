@@ -6,4 +6,5 @@ target 'App' do
   use_frameworks!
   pod 'Login', :path => '../mod/Login'
   pod 'LoginUI', :path => '../mod/LoginUI'
+  pod 'MPAK', :path => '../mod/MPAK'
 end
