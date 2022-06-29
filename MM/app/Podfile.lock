@@ -1,6 +1,7 @@
 PODS:
   - Login (2022.06.24):
     - LoginUI
+    - MPAK
   - LoginUI (2022.06.24)
   - MPAK (2022.06.29)
 
@@ -18,7 +19,7 @@ EXTERNAL SOURCES:
     :path: "../mod/MPAK"
 
 SPEC CHECKSUMS:
-  Login: bf1b9680fe0e8315dafefdd133f2b8d072547cd9
+  Login: 181f713252c3d8b7e100eaa087f1de93a8c93fb7
   LoginUI: 123725f49e714733653209d092fc78840ed46ed4
   MPAK: 7fc2e250a1bc46544263d5fbe4936de2c5286b10
 

@@ -11,5 +11,6 @@ s.source_files          = 'src/*.swift'
 s.swift_version         = '5.2'
 s.ios.deployment_target = '13.0'
 s.dependency 'LoginUI'
+s.dependency 'MPAK'
 
 end
