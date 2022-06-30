@@ -16,6 +16,9 @@ extension Login {
         )
 
       ui.content = UIHostingController(rootView: LoginUI.V(vm))
+      vm.hostLabel = "Host:"
+      vm.passwordLabel = "Password:"
+      vm.usernameLabel = "Username:"
       vm.version = "Version: MM-1"
     }
   }

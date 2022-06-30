@@ -17,21 +17,24 @@ extension LoginUI {
       VStack {
         Group {
           HStack {
-            Text("Username:")
+            Text(vm.usernameLabel)
+              .frame(width: vm.labelWidth, alignment: .leading)
             TextField("", text: $vm.username)
               .keyboardType(.alphabet)
               .padding(8)
               .border(Color.gray.opacity(0.2), width: 1)
           }
           HStack {
-            Text("Password:")
+            Text(vm.passwordLabel)
+              .frame(width: vm.labelWidth, alignment: .leading)
             SecureField("", text: $vm.password)
               .keyboardType(.alphabet)
               .padding(8)
               .border(Color.gray.opacity(0.2), width: 1)
           }
           HStack {
-            Text("Host:")
+            Text(vm.hostLabel)
+              .frame(width: vm.labelWidth, alignment: .leading)
             TextField("", text: $vm.host)
               .keyboardType(.URL)
               .padding(8)
