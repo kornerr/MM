@@ -16,6 +16,7 @@ extension Login {
         )
 
       ui.content = UIHostingController(rootView: LoginUI.V(vm))
+      vm.version = "Version: MM-1"
     }
   }
 }

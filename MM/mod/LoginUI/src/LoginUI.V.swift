@@ -10,34 +10,44 @@ extension LoginUI {
     }
 
     public var body: some View {
-      Text("🎃 Enter Murk in Models 🎃")
-        .padding(32)
-      Group {
-        VStack(alignment: .leading) {
-          Text("Username:")
-          TextField("", text: $vm.username)
-            .keyboardType(.alphabet)
-            .padding(8)
-            .border(Color.gray, width: 1)
+      Text("🎃 Murk in Models 🎃")
+        .font(Font.system(.title))
+        .grayscale(1)
+        .padding(.bottom, 16)
+      VStack {
+        Group {
+          HStack {
+            Text("Username:")
+            TextField("", text: $vm.username)
+              .keyboardType(.alphabet)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
+          HStack {
+            Text("Password:")
+            SecureField("", text: $vm.password)
+              .keyboardType(.alphabet)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
+          HStack {
+            Text("Host:")
+            TextField("", text: $vm.host)
+              .keyboardType(.URL)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
         }
-        VStack(alignment: .leading) {
-          Text("Password:")
-          SecureField("", text: $vm.password)
-            .keyboardType(.alphabet)
-            .padding(8)
-            .border(Color.gray, width: 1)
-        }
-        VStack(alignment: .leading) {
-          Text("Host:")
-          TextField("", text: $vm.host)
-            .keyboardType(.URL)
-            .padding(8)
-            .border(Color.gray, width: 1)
-        }
+          .autocapitalization(.none)
+          .disableAutocorrection(true)
+          .padding(8)
       }
-        .autocapitalization(.none)
-        .disableAutocorrection(true)
-        .padding([.leading, .trailing, .bottom], 24)
+        .padding(8)
+        .border(Color.gray.opacity(0.2), width: 1)
+        .padding(8)
+      Text(vm.version)
+        .font(Font.system(.footnote))
+        .padding(.top, 8)
     }
   }
 }
