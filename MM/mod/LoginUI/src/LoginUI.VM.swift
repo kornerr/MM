@@ -22,7 +22,8 @@ extension LoginUI {
       let hl = (hostLabel as NSString).size(withAttributes: attrs).width
       let pl = (passwordLabel as NSString).size(withAttributes: attrs).width
       let ul = (usernameLabel as NSString).size(withAttributes: attrs).width
-      return max(hl, max(pl, ul))
+      let delta = (":" as NSString).size(withAttributes: attrs).width
+      return max(hl, max(pl, ul)) + delta
     }
   }
 }
