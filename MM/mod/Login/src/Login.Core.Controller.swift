@@ -1,5 +1,6 @@
 import Combine
 import MPAK
+import Net
 
 extension Login.Core {
   public final class Controller: MPAK.Controller<Model> {
@@ -8,6 +9,7 @@ extension Login.Core {
       _ didPressSignIn: AnyPublisher<Void, Never>,
       _ host: AnyPublisher<String, Never>,
       _ password: AnyPublisher<String, Never>,
+      _ resultSystemInfo: AnyPublisher<Net.SystemInfo?, Never>,
       _ username: AnyPublisher<String, Never>
     ) {
       super.init(
@@ -33,6 +35,12 @@ extension Login.Core {
         dbg: "password",
         password,
         { $0.password = $1 }
+      )
+
+      pipeOptional(
+        dbg: "resultSI",
+        resultSystemInfo,
+        { $0.systemInfo = $1 }
       )
 
       pipeValue(

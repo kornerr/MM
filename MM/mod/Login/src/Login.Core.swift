@@ -17,6 +17,7 @@ extension Login {
           vm.signIn.eraseToAnyPublisher(),
           vm.$host.removeDuplicates().eraseToAnyPublisher(),
           vm.$password.removeDuplicates().eraseToAnyPublisher(),
+          resultSystemInfo.eraseToAnyPublisher(),
           vm.$username.removeDuplicates().eraseToAnyPublisher()
         )
 
@@ -55,14 +56,19 @@ extension Login {
         .compactMap { $0 }
         .flatMap {
           URLSession.shared.dataTaskPublisher(for: $0)
-          /**/.handleEvents(receiveOutput: { o in print("ИГР dat str: '\(String(data: o.data, encoding: .utf8))'")})
             .map { try? JSONDecoder().decode(Net.SystemInfo.self, from: $0.data) }
             .catch { _ in Just(nil) }
         }
         .receive(on: DispatchQueue.main)
-        .sink { [weak self] info in self?.resultSystemInfo.send(info)
-          /**/print("ИГР LoginC.init info: '\(info)'")
-        }
+        .sink { [weak self] info in self?.resultSystemInfo.send(info) }
+        .store(in: &subscriptions)
+
+      // Отображаем имя хоста.
+      ctrl.m
+        .map { $0.shouldResetHostName }
+        .removeDuplicates()
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] v in self?.vm.hostName = v }
         .store(in: &subscriptions)
     }
   }

@@ -1,3 +1,5 @@
+import Net
+
 extension Login.Core {
   public struct Model {
     public struct Buttons {
@@ -7,14 +9,23 @@ extension Login.Core {
     public var buttons = Buttons()
     public var host = ""
     public var password = ""
+    public var systemInfo: Net.SystemInfo?
     public var username = ""
   }
 }
 
 extension Login.Core.Model {
+  // Стоит отобразить имя хоста.
+  public var shouldResetHostName: String {
+    guard let si = systemInfo else { return "🎃 Murk in Models 🎃" }
+    return si.domain.name
+  }
+
   // Стоит обновить информацию о системе по адресу хоста.
   public var shouldRefreshSystemInfo: URL? {
-    host.isEmpty ? nil : URL(string: host + "/systemInfo")
+    guard !host.isEmpty else { return nil }
+    let urlString = "http://\(host)/systemInfo"
+    return URL(string: urlString)
   }
 
   // Приводим значение поля host к нужному формату, если есть по краям пробелы.
