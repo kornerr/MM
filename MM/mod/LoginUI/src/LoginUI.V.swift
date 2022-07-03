@@ -11,7 +11,8 @@ extension LoginUI {
 
     public var body: some View {
       VStack {
-        Text("🎃 Murk in Models 🎃")
+        Text(vm.hostName)
+          .lineLimit(1)
           .font(Font.system(.title))
           .grayscale(1)
           .padding(.bottom, 16)

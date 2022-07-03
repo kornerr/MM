@@ -4,6 +4,7 @@ extension LoginUI {
   public final class VM: ObservableObject {
     @Published public var host = ""
     @Published public var hostLabel = ""
+    @Published public var hostName = "🎃 Murk in Models 🎃"
     @Published public var password = ""
     @Published public var passwordLabel = ""
     @Published public var username = ""
