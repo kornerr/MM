@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
-s.name                  = 'Login'
-s.version               = '2022.06.24'
+s.name                  = 'Net'
+s.version               = '2022.07.03'
 s.license               = 'ZLIB'
 s.summary               = 'MM'
 s.homepage              = 'https://github.com/kornerr/MM'
@@ -10,8 +10,5 @@ s.source                = { :git => 'https://fake.com/FAKE.git', :tag => s.versi
 s.source_files          = 'src/*.swift'
 s.swift_version         = '5.2'
 s.ios.deployment_target = '13.0'
-s.dependency 'LoginUI'
-s.dependency 'MPAK'
-s.dependency 'Net'
 
 end

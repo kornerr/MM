@@ -7,4 +7,5 @@ target 'App' do
   pod 'Login', :path => '../mod/Login'
   pod 'LoginUI', :path => '../mod/LoginUI'
   pod 'MPAK', :path => '../mod/MPAK'
+  pod 'Net', :path => '../mod/Net'
 end

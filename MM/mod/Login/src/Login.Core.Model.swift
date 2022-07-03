@@ -12,6 +12,11 @@ extension Login.Core {
 }
 
 extension Login.Core.Model {
+  // Стоит обновить информацию о системе по адресу хоста.
+  public var shouldRefreshSystemInfo: URL? {
+    host.isEmpty ? nil : URL(string: host + "/systemInfo")
+  }
+
   // Приводим значение поля host к нужному формату, если есть по краям пробелы.
   public var shouldResetHost: String? {
     let th = host.trimmingCharacters(in: .whitespaces)
