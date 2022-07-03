@@ -55,7 +55,7 @@ extension Login {
         .compactMap { $0 }
         .flatMap {
           URLSession.shared.dataTaskPublisher(for: $0)
-            /**/.handleEvents(receiveOutput: { o in print("ИГР dat str: '\(String(data: o, using: .utf8))'")})
+          /**/.handleEvents(receiveOutput: { o in print("ИГР dat str: '\(String(data: o.data, encoding: .utf8))'")})
             .map { try? JSONDecoder().decode(Net.SystemInfo.self, from: $0.data) }
             .catch { _ in Just(nil) }
         }

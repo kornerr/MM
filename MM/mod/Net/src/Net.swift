@@ -7,7 +7,7 @@ extension Net {
   }
 
   public struct SystemInfo: Codable {
-    public var version: String
+    public var apiVersion: String
     public var domain: Domain
   }
 }
