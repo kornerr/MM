@@ -8,6 +8,7 @@ extension Login {
     let ctrl: Controller
     let ui = LoginUI.VC()
     var subscriptions = [AnyCancellable]()
+    private let isLoadingSystemInfo = PassthroughSubject<Void, Never>()
     private let resultSystemInfo = PassthroughSubject<Net.SystemInfo?, Never>()
     private let vm = LoginUI.VM()
 
@@ -16,6 +17,7 @@ extension Login {
         Controller(
           vm.signIn.eraseToAnyPublisher(),
           vm.$host.removeDuplicates().eraseToAnyPublisher(),
+          isLoadingSystemInfo.eraseToAnyPublisher(),
           vm.$password.removeDuplicates().eraseToAnyPublisher(),
           resultSystemInfo.eraseToAnyPublisher(),
           vm.$username.removeDuplicates().eraseToAnyPublisher()
@@ -54,7 +56,8 @@ extension Login {
         .removeDuplicates()
         .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
         .compactMap { $0 }
-        .flatMap {
+        .flatMap { [weak self] in
+          self?.isLoadingSystemInfo.send()
           URLSession.shared.dataTaskPublisher(for: $0)
             .map { try? JSONDecoder().decode(Net.SystemInfo.self, from: $0.data) }
             .catch { _ in Just(nil) }
@@ -65,13 +68,18 @@ extension Login {
 
       // Отображаем имя хоста.
       ctrl.m
-        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-1") })
         .map { $0.shouldResetHostName }
-        /**/.handleEvents(receiveOutput: { o in print("ИГР LoginC.init shouldRHN-2: '\(o)'") })
         .removeDuplicates()
-        /**/.handleEvents(receiveOutput: { o in print("ИГР LoginC.init shouldRHN-3: '\(o)'") })
         .receive(on: DispatchQueue.main)
         .sink { [weak self] v in self?.vm.hostName = v }
+        .store(in: &subscriptions)
+
+      // Отображаем загрузку системной инфы.
+      ctrl.m
+        .map { $0.isLoadingSystemInfo }
+        .removeDuplicates()
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] v in self?.vm.isLoadingSystemInfo = v }
         .store(in: &subscriptions)
     }
   }

@@ -32,6 +32,15 @@ extension Login.Core {
       )
 
       pipeValue(
+        dbg: "isLSI",
+        Publishers.Merge(
+          isLoadingSystemInfo.map { _ in true },
+          rsultSystemInfo.map { _ in false }
+        ).eraseToAnyPublisher()
+        { $0.isLoadingSystemInfo = $1 }
+      )
+
+      pipeValue(
         dbg: "password",
         password,
         { $0.password = $1 }

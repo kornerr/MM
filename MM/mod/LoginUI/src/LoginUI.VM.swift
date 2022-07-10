@@ -4,7 +4,8 @@ extension LoginUI {
   public final class VM: ObservableObject {
     @Published public var host = ""
     @Published public var hostLabel = ""
-    @Published public var hostName = "🎃 Murk in Models 🎃"
+    @Published public var hostName = ""
+    @Published public var isLoadingSystemInfo = false
     @Published public var password = ""
     @Published public var passwordLabel = ""
     @Published public var username = ""
@@ -25,6 +26,13 @@ extension LoginUI {
       let ul = (usernameLabel as NSString).size(withAttributes: attrs).width
       let delta = (":" as NSString).size(withAttributes: attrs).width
       return max(hl, max(pl, ul)) + delta
+    }
+
+    public var hostLabelWidth: CGFloat {
+      // Если идёт загрузка системной информации, то из ширины ярлыка
+      // выделяем место на индикатор загрузки.
+      let delta = isLoadingSystemInfo ? 20 + 8 : 0
+      return labelWidth - delta
     }
   }
 }

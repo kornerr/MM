@@ -8,6 +8,7 @@ extension Login.Core {
 
     public var buttons = Buttons()
     public var host = ""
+    public var isLoadingSystemInfo = false
     public var password = ""
     public var systemInfo: Net.SystemInfo?
     public var username = ""

@@ -36,13 +36,15 @@ extension LoginUI {
             }
             HStack {
               Text(vm.hostLabel + ":")
-                .frame(width: vm.labelWidth, alignment: .leading)
+                .frame(width: vm.hostLabelWidth, alignment: .leading)
+              if vm.isLoadingSystemInfo {
+                ActivityIndicator(style: .medium)
+              }
               TextField(vm.hostLabel, text: $vm.host)
                 .keyboardType(.URL)
                 .padding(8)
                 .border(Color.gray.opacity(0.2), width: 1)
             }
-            ActivityIndicator(style: .medium)
           }
             .autocapitalization(.none)
             .disableAutocorrection(true)
