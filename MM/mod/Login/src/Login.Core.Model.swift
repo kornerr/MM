@@ -17,8 +17,13 @@ extension Login.Core {
 extension Login.Core.Model {
   // Стоит отобразить имя хоста.
   public var shouldResetHostName: String {
-    guard let si = systemInfo else { return "🎃 Murk in Models 🎃" }
-    return si.domain.name
+    if
+      !host.isEmpty,
+      let si = systemInfo
+    {
+      return si.domain.name
+    }
+    return "🎃 Murk in Models 🎃"
   }
 
   // Стоит обновить информацию о системе по адресу хоста.
