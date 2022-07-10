@@ -8,6 +8,7 @@ extension Login.Core {
     public init(
       _ didPressSignIn: AnyPublisher<Void, Never>,
       _ host: AnyPublisher<String, Never>,
+      _ isLoadingSystemInfo: AnyPublisher<Void, Never>,
       _ password: AnyPublisher<String, Never>,
       _ resultSystemInfo: AnyPublisher<Net.SystemInfo?, Never>,
       _ username: AnyPublisher<String, Never>
@@ -35,8 +36,8 @@ extension Login.Core {
         dbg: "isLSI",
         Publishers.Merge(
           isLoadingSystemInfo.map { _ in true },
-          rsultSystemInfo.map { _ in false }
-        ).eraseToAnyPublisher()
+          resultSystemInfo.map { _ in false }
+        ).eraseToAnyPublisher(),
         { $0.isLoadingSystemInfo = $1 }
       )
 

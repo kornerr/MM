@@ -56,11 +56,12 @@ extension Login {
         .removeDuplicates()
         .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
         .compactMap { $0 }
-        .flatMap { [weak self] in
+        .flatMap { [weak self] url -> AnyPublisher<Net.SystemInfo?, Never> in
           self?.isLoadingSystemInfo.send()
-          URLSession.shared.dataTaskPublisher(for: $0)
-            .map { try? JSONDecoder().decode(Net.SystemInfo.self, from: $0.data) }
+          return URLSession.shared.dataTaskPublisher(for: url)
+            .map { v in try? JSONDecoder().decode(Net.SystemInfo.self, from: v.data) }
             .catch { _ in Just(nil) }
+            .eraseToAnyPublisher()
         }
         .receive(on: DispatchQueue.main)
         .sink { [weak self] info in self?.resultSystemInfo.send(info) }

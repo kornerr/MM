@@ -31,7 +31,7 @@ extension LoginUI {
     public var hostLabelWidth: CGFloat {
       // Если идёт загрузка системной информации, то из ширины ярлыка
       // выделяем место на индикатор загрузки.
-      let delta = isLoadingSystemInfo ? 20 + 8 : 0
+      let delta: CGFloat = isLoadingSystemInfo ? 20 + 8 : 0
       return labelWidth - delta
     }
   }
