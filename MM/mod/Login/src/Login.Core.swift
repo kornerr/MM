@@ -67,9 +67,9 @@ extension Login {
       ctrl.m
         /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-1") })
         .map { $0.shouldResetHostName }
-        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-2") })
+        /**/.handleEvents(receiveOutput: { o in print("ИГР LoginC.init shouldRHN-2: '\(o)'") })
         .removeDuplicates()
-        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-3") })
+        /**/.handleEvents(receiveOutput: { o in print("ИГР LoginC.init shouldRHN-3: '\(o)'") })
         .receive(on: DispatchQueue.main)
         .sink { [weak self] v in self?.vm.hostName = v }
         .store(in: &subscriptions)
