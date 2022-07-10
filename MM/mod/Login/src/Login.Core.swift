@@ -65,8 +65,11 @@ extension Login {
 
       // Отображаем имя хоста.
       ctrl.m
+        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-1") })
         .map { $0.shouldResetHostName }
+        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-2") })
         .removeDuplicates()
+        /**/.handleEvents(receiveOutput: { _ in print("ИГР LoginC.init shouldRHN-3") })
         .receive(on: DispatchQueue.main)
         .sink { [weak self] v in self?.vm.hostName = v }
         .store(in: &subscriptions)
