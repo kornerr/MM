@@ -42,6 +42,7 @@ extension LoginUI {
                 .padding(8)
                 .border(Color.gray.opacity(0.2), width: 1)
             }
+            ActivityIndicator(style: .medium)
           }
             .autocapitalization(.none)
             .disableAutocorrection(true)
