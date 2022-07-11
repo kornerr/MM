@@ -57,8 +57,8 @@ extension Login {
         .map { $0.shouldRefreshSystemInfo }
         .removeDuplicates()
         .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
-        .compactMap { $0 }
         .flatMap { [weak self] url -> AnyPublisher<Net.SystemInfo?, Never> in
+          guard let url = url else { return Just(nil).eraseToAnyPublisher() }
           self?.isLoadingSystemInfo.send()
           return URLSession.shared.dataTaskPublisher(for: url)
             .map { v in try? JSONDecoder().decode(Net.SystemInfo.self, from: v.data) }
@@ -74,9 +74,9 @@ extension Login {
         .map { $0.shouldRefreshHostLogo }
         .removeDuplicates()
         .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
-        .compactMap { $0 }
-        .flatMap { [weak self] url in
-          URLSession.shared.dataTaskPublisher(for: url)
+        .flatMap { [weak self] url -> AnyPublisher<UIImage?, Never> in
+          guard let url = url else { return Just(nil).eraseToAnyPublisher() }
+          return URLSession.shared.dataTaskPublisher(for: url)
             .map { v in UIImage(data: v.data) }
             .catch { _ in Just(nil) }
             .eraseToAnyPublisher()

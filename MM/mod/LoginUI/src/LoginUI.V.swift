@@ -16,6 +16,7 @@ extension LoginUI {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: 100)
+            .clipShape(Circle())
         }
         Text(vm.hostName)
           .lineLimit(1)
