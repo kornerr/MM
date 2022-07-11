@@ -35,7 +35,5 @@ extension LoginUI {
       let delta: CGFloat = isLoadingSystemInfo ? 20 + 8 : 0
       return labelWidth - delta
     }
-
-    public var hostLogoHeight: CGFloat { 50 }
   }
 }

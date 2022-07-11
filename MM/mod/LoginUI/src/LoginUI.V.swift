@@ -15,7 +15,7 @@ extension LoginUI {
           Image(uiImage: logo)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: vm.hostLogoHeight)
+            .frame(height: 100)
         }
         Text(vm.hostName)
           .lineLimit(1)
