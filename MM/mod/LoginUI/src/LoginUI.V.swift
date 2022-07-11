@@ -11,6 +11,12 @@ extension LoginUI {
 
     public var body: some View {
       VStack {
+        if let logo = hostLogo {
+          Image(uiImage: logo)
+            .resizable()
+            .aspectRation(contentMode: .fit)
+            .frame(height: vm.hostLogoHeight)
+        }
         Text(vm.hostName)
           .lineLimit(1)
           .font(Font.system(.title))

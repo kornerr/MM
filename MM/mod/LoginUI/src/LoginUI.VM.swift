@@ -4,6 +4,7 @@ extension LoginUI {
   public final class VM: ObservableObject {
     @Published public var host = ""
     @Published public var hostLabel = ""
+    @Published public var hostLogo: UIImage?
     @Published public var hostName = ""
     @Published public var isLoadingSystemInfo = false
     @Published public var password = ""
@@ -34,5 +35,7 @@ extension LoginUI {
       let delta: CGFloat = isLoadingSystemInfo ? 20 + 8 : 0
       return labelWidth - delta
     }
+
+    public var hostLogoHeight: CGFloat { 50 }
   }
 }
