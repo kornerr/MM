@@ -9,6 +9,7 @@ extension Login {
     let ui = LoginUI.VC()
     var subscriptions = [AnyCancellable]()
     private let isLoadingSystemInfo = PassthroughSubject<Void, Never>()
+    private let resultHostLogo = PassthroughSubject<UIImage?, Never>()
     private let resultSystemInfo = PassthroughSubject<Net.SystemInfo?, Never>()
     private let vm = LoginUI.VM()
 
@@ -19,6 +20,7 @@ extension Login {
           vm.$host.removeDuplicates().eraseToAnyPublisher(),
           isLoadingSystemInfo.eraseToAnyPublisher(),
           vm.$password.removeDuplicates().eraseToAnyPublisher(),
+          resultHostLogo.eraseToAnyPublisher(),
           resultSystemInfo.eraseToAnyPublisher(),
           vm.$username.removeDuplicates().eraseToAnyPublisher()
         )
@@ -67,6 +69,22 @@ extension Login {
         .sink { [weak self] info in self?.resultSystemInfo.send(info) }
         .store(in: &subscriptions)
 
+      // Загружаем логотип хоста.
+      ctrl.m
+        .map { $0.shouldRefreshHostLogo }
+        .removeDuplicates()
+        .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
+        .compactMap { $0 }
+        .flatMap { [weak self] url in
+          URLSession.shared.dataTaskPublisher(for: url)
+            .map { v in UIImage(data: v.data) }
+            .catch { _ in Just(nil) }
+            .eraseToAnyPublisher()
+        }
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] img in self?.resultHostLogo.send(img) }
+        .store(in: &subscriptions)
+
       // Отображаем имя хоста.
       ctrl.m
         .map { $0.shouldResetHostName }
@@ -81,6 +99,14 @@ extension Login {
         .removeDuplicates()
         .receive(on: DispatchQueue.main)
         .sink { [weak self] v in self?.vm.isLoadingSystemInfo = v }
+        .store(in: &subscriptions)
+
+      // Отображаем логотип хоста.
+      ctrl.m
+        .map { $0.hostLogo }
+        .removeDuplicates()
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] img in self?.vm.hostLogo = img }
         .store(in: &subscriptions)
     }
   }

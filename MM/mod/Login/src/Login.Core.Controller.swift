@@ -10,6 +10,7 @@ extension Login.Core {
       _ host: AnyPublisher<String, Never>,
       _ isLoadingSystemInfo: AnyPublisher<Void, Never>,
       _ password: AnyPublisher<String, Never>,
+      _ resultHostLogo: AnyPublisher<UIImage?, Never>,
       _ resultSystemInfo: AnyPublisher<Net.SystemInfo?, Never>,
       _ username: AnyPublisher<String, Never>
     ) {
@@ -51,6 +52,12 @@ extension Login.Core {
         dbg: "resultSI",
         resultSystemInfo,
         { $0.systemInfo = $1 }
+      )
+
+      pipeValue(
+        dbg: "resultHL",
+        resultHostLogo,
+        { $0.hostLogo = $1 }
       )
 
       pipeValue(

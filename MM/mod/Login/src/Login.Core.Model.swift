@@ -8,6 +8,7 @@ extension Login.Core {
 
     public var buttons = Buttons()
     public var host = ""
+    public var hostLogo: UIImage?
     public var isLoadingSystemInfo = false
     public var password = ""
     public var systemInfo: Net.SystemInfo?
@@ -16,15 +17,16 @@ extension Login.Core {
 }
 
 extension Login.Core.Model {
-  // Стоит отобразить имя хоста.
-  public var shouldResetHostName: String {
-    if
+  // Стоит обновить логотип хоста.
+  public var shouldRefreshHostLogo: URL? {
+    guard
       !host.isEmpty,
-      let si = systemInfo
-    {
-      return si.domain.name
+      let id = systemInfo?.domain.logoResourceId
+    else {
+      return nil
     }
-    return "🎃 Murk in Models 🎃"
+    let urlString = "http://\(host)/resource/\(id)"
+    return URL(string: urlString)
   }
 
   // Стоит обновить информацию о системе по адресу хоста.
@@ -41,6 +43,17 @@ extension Login.Core.Model {
       return th
     }
     return nil
+  }
+
+  // Стоит отобразить имя хоста.
+  public var shouldResetHostName: String {
+    if
+      !host.isEmpty,
+      let si = systemInfo
+    {
+      return si.domain.name
+    }
+    return "🎃 Murk in Models 🎃"
   }
 
   // Приводим значение поля password к нужному формату, если есть по краям пробелы.
