@@ -13,11 +13,15 @@ class LoginViewController: UIViewController {
 
   private func setupUI() {
     view.addSubview(form)
-    form.centerAnchors /==/ view.centerAnchors
+
+    form.horizontalAnchors /==/ view.horizontalAnchors
+    form.centerYAnchor /==/ view.centerYAnchor
+    /**/form.heightAnchor /==/ 50
 
     view.addSubview(headerTitle)
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
+    headerTitle.bottomAnchor /==/ form.topAnchor - 8
     headerTitle.textAlignment = .center
     headerTitle.text = "🎃 Murk in Models 🎃";
   }
