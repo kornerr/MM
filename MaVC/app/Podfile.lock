@@ -1,0 +1,16 @@
+PODS:
+  - Anchorage (4.5.0)
+
+DEPENDENCIES:
+  - Anchorage
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Anchorage
+
+SPEC CHECKSUMS:
+  Anchorage: 1961bc81c84aeed54ad7ffc697c50cd9de748ba6
+
+PODFILE CHECKSUM: 4fd9db8ad0f05f590d3e4f901be9c0bee6ae564b
+
+COCOAPODS: 1.9.1
