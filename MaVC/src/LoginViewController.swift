@@ -8,6 +8,7 @@ class LoginViewController: UIViewController {
     let textFieldBG = UIView()
   }
 
+  let fieldLabels = ["Username", "Password", "Host"]
   let form = UIView()
   let headerTitle = UILabel()
   let host = Field()
@@ -63,9 +64,9 @@ class LoginViewController: UIViewController {
 
   private func updateUI() {
     headerTitle.text = "🎃 Murk in Models 🎃"
-    updateField(userName, "Username")
-    updateField(password, "Password")
-    updateField(host, "Host")
+    updateField(userName, fieldLabels[0])
+    updateField(password, fieldLabels[1])
+    updateField(host, fieldLabels[2])
 /*
     public var labelWidth: CGFloat {
       let font = UIFont.preferredFont(forTextStyle: .body)
