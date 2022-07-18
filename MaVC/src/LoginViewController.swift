@@ -21,13 +21,10 @@ class LoginViewController: UIViewController {
     var maxLength: CGFloat = 0
     for label in fieldLabels {
       let length = (label as NSString).size(withAttributes: attrs).width
-      /**/print("ИГР LoginVC.labelW-1 label/length/maxL: '\(label)'/'\(length)'/'\(maxLength)'")
       maxLength = max(maxLength, length)
     }
     let delta = (":" as NSString).size(withAttributes: attrs).width
-    let r = maxLength + delta
-    /**/print("ИГР LoginVC.labelW-2: '\(r)'")
-    return r
+    return ceil(maxLength + delta)
   }
 
   override func viewDidLoad() {
@@ -73,6 +70,7 @@ class LoginViewController: UIViewController {
   }
 
   private func updateField(_ field: Field, _ title: String) {
+    field.label.font = UIFont.preferredFont(forTextStyle: .body)
     field.label.text = "\(title):"
     field.textField.placeholder = title
     field.label.widthAnchor /==/ labelWidth
