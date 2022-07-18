@@ -56,14 +56,27 @@ class LoginViewController: UIViewController {
     field.textFieldBG.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
   }
 
+  private func updateField(_ field: Field, _ title: String) {
+    field.label.text = "\(title):"
+    field.textField.placeholder = title
+  }
+
   private func updateUI() {
     headerTitle.text = "🎃 Murk in Models 🎃"
-    userName.label.text = "Username:"
-    userName.textField.placeholder = "Username"
-    password.label.text = "Password:"
-    password.textField.placeholder = "Password"
-    host.label.text = "Host:"
-    host.textField.placeholder = "Host"
+    updateField(userName, "Username")
+    updateField(password, "Password")
+    updateField(host, "Host")
+/*
+    public var labelWidth: CGFloat {
+      let font = UIFont.preferredFont(forTextStyle: .body)
+      let attrs = [NSAttributedString.Key.font: font]
+      let hl = (hostLabel as NSString).size(withAttributes: attrs).width
+      let pl = (passwordLabel as NSString).size(withAttributes: attrs).width
+      let ul = (usernameLabel as NSString).size(withAttributes: attrs).width
+      let delta = (":" as NSString).size(withAttributes: attrs).width
+      return max(hl, max(pl, ul)) + delta
+    }
+    */
   }
 }
 
