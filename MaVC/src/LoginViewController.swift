@@ -15,6 +15,21 @@ class LoginViewController: UIViewController {
   let password = Field()
   let userName = Field()
 
+  var labelWidth: CGFloat {
+    let font = UIFont.preferredFont(forTextStyle: .body)
+    let attrs = [NSAttributedString.Key.font: font]
+    var maxLength: CGFloat = 0
+    for label in fieldLabels {
+      let length = (label as NSString).size(withAttributes: attrs).width
+      /**/print("ИГР LoginVC.labelW-1 label/length/maxL: '\(label)'/'\(length)'/'\(maxLength)'")
+      maxLength = max(maxLength, length)
+    }
+    let delta = (":" as NSString).size(withAttributes: attrs).width
+    let r = maxLength + delta
+    /**/print("ИГР LoginVC.labelW-2: '\(r)'")
+    return r
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
@@ -60,6 +75,7 @@ class LoginViewController: UIViewController {
   private func updateField(_ field: Field, _ title: String) {
     field.label.text = "\(title):"
     field.textField.placeholder = title
+    field.label.widthAnchor /==/ labelWidth
   }
 
   private func updateUI() {
@@ -67,17 +83,6 @@ class LoginViewController: UIViewController {
     updateField(userName, fieldLabels[0])
     updateField(password, fieldLabels[1])
     updateField(host, fieldLabels[2])
-/*
-    public var labelWidth: CGFloat {
-      let font = UIFont.preferredFont(forTextStyle: .body)
-      let attrs = [NSAttributedString.Key.font: font]
-      let hl = (hostLabel as NSString).size(withAttributes: attrs).width
-      let pl = (passwordLabel as NSString).size(withAttributes: attrs).width
-      let ul = (usernameLabel as NSString).size(withAttributes: attrs).width
-      let delta = (":" as NSString).size(withAttributes: attrs).width
-      return max(hl, max(pl, ul)) + delta
-    }
-    */
   }
 }
 
