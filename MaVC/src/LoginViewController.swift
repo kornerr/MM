@@ -2,11 +2,17 @@ import Anchorage
 import UIKit
 
 class LoginViewController: UIViewController {
+  struct Field {
+    let label = UILabel()
+    let textField = UITextField()
+    let textFieldBG = UIView()
+  }
+
   let form = UIView()
   let headerTitle = UILabel()
-  let userNameLabel = UILabel()
-  let userNameTextField = UITextField()
-  let userNameTextFieldBG = UIView()
+  let host = Field()
+  let password = Field()
+  let userName = Field()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -18,9 +24,6 @@ class LoginViewController: UIViewController {
   private func setupUI() {
     view.addSubview(headerTitle)
     view.addSubview(form)
-    form.addSubview(userNameLabel)
-    form.addSubview(userNameTextFieldBG)
-    userNameTextFieldBG.addSubview(userNameTextField)
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
@@ -30,28 +33,37 @@ class LoginViewController: UIViewController {
     form.horizontalAnchors /==/ view.horizontalAnchors
     form.centerYAnchor /==/ view.centerYAnchor
 
-    userNameLabel.leftAnchor /==/ form.leftAnchor + 16
-    userNameLabel.rightAnchor /==/ userNameTextFieldBG.leftAnchor + 8
-    userNameLabel.centerYAnchor /==/ userNameTextFieldBG.centerYAnchor
+    setupField(userName)
+    setupField(password)
+    setupField(host)
+    userName.textFieldBG.topAnchor /==/ form.topAnchor + 16
+    userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 16
+    password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 16
+    host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
+  }
 
-    //let insetsUNTF = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: -8)
-    userNameTextField.edgeAnchors /==/ userNameTextFieldBG.edgeAnchors + 8
-    userNameTextFieldBG.topAnchor /==/ form.topAnchor + 16
-    userNameTextFieldBG.rightAnchor /==/ form.rightAnchor - 16
-    userNameTextFieldBG.layer.borderWidth = 1
-    userNameTextFieldBG.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
+  private func setupField(_ field: Field) {
+    form.addSubview(field.label)
+    form.addSubview(field.textFieldBG)
+    field.textFieldBG.addSubview(field.textField)
 
-
-    /**/userNameTextFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
-
-    /**///form.heightAnchor /==/ 50
-
+    field.label.leftAnchor /==/ form.leftAnchor + 16
+    field.label.rightAnchor /==/ field.textFieldBG.leftAnchor + 8
+    field.label.centerYAnchor /==/ field.textFieldBG.centerYAnchor
+    field.textField.edgeAnchors /==/ field.textFieldBG.edgeAnchors + 8
+    field.textFieldBG.rightAnchor /==/ form.rightAnchor - 16
+    field.textFieldBG.layer.borderWidth = 1
+    field.textFieldBG.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
   }
 
   private func updateUI() {
     headerTitle.text = "🎃 Murk in Models 🎃"
-    userNameLabel.text = "Username:"
-    userNameTextField.placeholder = "Username"
+    userName.label.text = "Username:"
+    userName.textField.placeholder = "Username"
+    password.label.text = "Password:"
+    password.textField.placeholder = "Password"
+    host.label.text = "Host:"
+    host.textField.placeholder = "Host"
   }
 }
 
