@@ -14,6 +14,7 @@ class LoginViewController: UIViewController {
   let host = Field()
   let password = Field()
   let userName = Field()
+  let version = UILabel()
 
   var labelWidth: CGFloat {
     let font = UIFont.preferredFont(forTextStyle: .body)
@@ -37,14 +38,17 @@ class LoginViewController: UIViewController {
   private func setupUI() {
     view.addSubview(headerTitle)
     view.addSubview(form)
+    view.addSubview(version)
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
     headerTitle.bottomAnchor /==/ form.topAnchor - 32
     headerTitle.textAlignment = .center
+    headerTitle.font = UIFont.preferredFont(forTextStyle: .title1)
+    headerTitle.numberOfLines = 1
 
     form.horizontalAnchors /==/ view.horizontalAnchors + 8
-    form.centerYAnchor /==/ view.centerYAnchor
+    form.centerYAnchor /==/ view.centerYAnchor + 16
     form.layer.borderWidth = 1
     form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
 
@@ -55,6 +59,11 @@ class LoginViewController: UIViewController {
     userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
     password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
     host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
+
+    version.horizontalAnchors /==/ view.horizontalAnchors
+    version.topAnchor /==/ form.bottomAnchor + 24
+    version.font = UIFont.preferredFont(forTextStyle: .footnote)
+    version.textAlignment = .center
   }
 
   private func setupField(_ field: Field) {
@@ -79,13 +88,13 @@ class LoginViewController: UIViewController {
   }
 
   private func updateUI() {
-    headerTitle.font = UIFont.preferredFont(forTextStyle: .title1)
-    headerTitle.numberOfLines = 1
     headerTitle.text = "🎃 Murk in Models 🎃"
 
     updateField(userName, fieldLabels[0])
     updateField(password, fieldLabels[1])
     updateField(host, fieldLabels[2])
+
+    version.text = "Version: MaVC-1"
   }
 }
 
