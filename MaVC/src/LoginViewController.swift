@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
-    headerTitle.bottomAnchor /==/ form.topAnchor - 8
+    headerTitle.bottomAnchor /==/ form.topAnchor - 32
     headerTitle.textAlignment = .center
 
     form.horizontalAnchors /==/ view.horizontalAnchors + 8
@@ -79,7 +79,10 @@ class LoginViewController: UIViewController {
   }
 
   private func updateUI() {
+    headerTitle.font = UIFont.preferredFont(forTextStyle: .title1)
+    headerTitle.numberOfLines = 1
     headerTitle.text = "🎃 Murk in Models 🎃"
+
     updateField(userName, fieldLabels[0])
     updateField(password, fieldLabels[1])
     updateField(host, fieldLabels[2])
