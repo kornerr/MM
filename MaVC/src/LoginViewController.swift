@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
     headerTitle.bottomAnchor /==/ form.topAnchor - 8
     headerTitle.textAlignment = .center
 
-    form.horizontalAnchors /==/ view.horizontalAnchors
+    form.horizontalAnchors /==/ view.horizontalAnchors + 8
     form.centerYAnchor /==/ view.centerYAnchor
     form.layer.borderWidth = 1
     form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
