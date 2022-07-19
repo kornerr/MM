@@ -45,13 +45,15 @@ class LoginViewController: UIViewController {
 
     form.horizontalAnchors /==/ view.horizontalAnchors
     form.centerYAnchor /==/ view.centerYAnchor
+    form.layer.borderWidth = 1
+    form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
 
     setupField(userName)
     setupField(password)
     setupField(host)
     userName.textFieldBG.topAnchor /==/ form.topAnchor + 16
-    userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 16
-    password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 16
+    userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
+    password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
     host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
   }
 
@@ -61,7 +63,7 @@ class LoginViewController: UIViewController {
     field.textFieldBG.addSubview(field.textField)
 
     field.label.leftAnchor /==/ form.leftAnchor + 16
-    field.label.rightAnchor /==/ field.textFieldBG.leftAnchor + 8
+    field.label.rightAnchor /==/ field.textFieldBG.leftAnchor - 8
     field.label.centerYAnchor /==/ field.textFieldBG.centerYAnchor
     field.textField.edgeAnchors /==/ field.textFieldBG.edgeAnchors + 8
     field.textFieldBG.rightAnchor /==/ form.rightAnchor - 16
