@@ -53,8 +53,11 @@ class LoginViewController: UIViewController {
     form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
 
     setupField(userName)
+    userName.textField.addTarget(self, action: #selector(userNameDidChange), for: .editingChanged)
     setupField(password)
+    password.textField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
     setupField(host)
+    host.textField.addTarget(self, action: #selector(hostDidChange), for: .editingChanged)
     userName.textFieldBG.topAnchor /==/ form.topAnchor + 16
     userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
     password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
@@ -98,3 +101,16 @@ class LoginViewController: UIViewController {
   }
 }
 
+extension LoginViewController {
+  @objc private func hostDidChange(tf: UITextField) {
+    /**/print("ИГР LoginVC.hostDC: '\(tf.text)'")
+  }
+
+  @objc private func passwordDidChange(tf: UITextField) {
+    /**/print("ИГР LoginVC.passwordDC: '\(tf.text)'")
+  }
+
+  @objc private func userNameDidChange(tf: UITextField) {
+    /**/print("ИГР LoginVC.userNDC: '\(tf.text)'")
+  }
+}
