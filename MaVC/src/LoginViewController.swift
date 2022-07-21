@@ -39,7 +39,7 @@ extension LoginViewController {
     return ceil(maxLength + delta)
   }
 
-  private func loadSystemInfo() {
+  private func loadSystemInfo(_ url: String) {
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
       DispatchQueue.main.async {
@@ -133,7 +133,7 @@ extension LoginViewController {
     }
     hostURL = url
     DispatchQueue.main.async(after: .now() + 1.3) {
-      loadSystemInfo()
+      loadSystemInfo(url)
     }
   }
 
