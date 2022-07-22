@@ -75,10 +75,15 @@ extension LoginViewController {
 
     setupField(userName)
     userName.textField.addTarget(self, action: #selector(userNameDidChange), for: .editingChanged)
+    userName.textField.keyboardType = .alphabet
     setupField(password)
     password.textField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
+    password.textField.keyboardType = .alphabet
+    password.textField.isSecureTextEntry = true
     setupField(host)
     host.textField.addTarget(self, action: #selector(hostDidChange), for: .editingChanged)
+    host.textField.keyboardType = .URL
+
     userName.textFieldBG.topAnchor /==/ form.topAnchor + 16
     userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
     password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
@@ -124,16 +129,15 @@ extension LoginViewController {
 
 extension LoginViewController {
   @objc private func hostDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.hostDC-1: '\(tf.text)'")
+    /**/print("ИГР LoginVC.hostDC-1: '\(String(describing: tf.text))'")
     guard
       let host = tf.text,
       host != lastHost,
-      let urlString = "http://\(host)/systemInfo",
-      let url = URL(string: urlString)
+      let url = URL(string: "http://\(host)/systemInfo")
     else {
       return
     }
-    /**/print("ИГР LoginVC.hostDC-2: '\(tf.text)'")
+    /**/print("ИГР LoginVC.hostDC-2: '\(String(describing: tf.text))'")
     lastHost = host
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
       self.loadSystemInfo(url)
@@ -141,10 +145,10 @@ extension LoginViewController {
   }
 
   @objc private func passwordDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.passwordDC: '\(tf.text)'")
+    /**/print("ИГР LoginVC.passwordDC: '\(String(describing: tf.text))'")
   }
 
   @objc private func userNameDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.userNDC: '\(tf.text)'")
+    /**/print("ИГР LoginVC.userNDC: '\(String(describing: tf.text))'")
   }
 }
