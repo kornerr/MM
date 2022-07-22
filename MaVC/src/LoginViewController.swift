@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
   let password = Field()
   let userName = Field()
   let version = UILabel()
-  var hostURL: String?
+  var hostURL: URL?
   var loadSystemInfoTask: URLSessionDataTask?
 
   override func viewDidLoad() {
@@ -39,7 +39,7 @@ extension LoginViewController {
     return ceil(maxLength + delta)
   }
 
-  private func loadSystemInfo(_ url: String) {
+  private func loadSystemInfo(_ url: URL) {
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
       DispatchQueue.main.async {
@@ -124,15 +124,17 @@ extension LoginViewController {
 
 extension LoginViewController {
   @objc private func hostDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.hostDC: '\(tf.text)'")
+    /**/print("ИГР LoginVC.hostDC-1: '\(tf.text)'")
     guard
-      let url = tf.text,
+      let urlString = tf.text,
+      let url = URL(string: urlString),
       url != hostURL
     else {
       return
     }
+    /**/print("ИГР LoginVC.hostDC-2: '\(tf.text)'")
     hostURL = url
-    DispatchQueue.main.async(after: .now() + 1.3) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
       loadSystemInfo(url)
     }
   }
