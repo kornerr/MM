@@ -96,6 +96,9 @@ extension LoginViewController {
   }
 
   private func setupField(_ field: Field) {
+    field.textField.autocapitalizationType = .none
+    field.textField.autocorrectionType = .no
+
     form.addSubview(field.label)
     form.addSubview(field.textFieldBG)
     field.textFieldBG.addSubview(field.textField)
@@ -139,7 +142,14 @@ extension LoginViewController {
     }
     /**/print("ИГР LoginVC.hostDC-2: '\(String(describing: tf.text))'")
     lastHost = host
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) { [weak self] in
+      // Удостоверяемся, что редактирование прекратилось.
+      guard
+        let self = self,
+        host == self.lastHost
+      else {
+        return
+      }
       self.loadSystemInfo(url)
     }
   }
