@@ -142,7 +142,7 @@ extension LoginViewController {
     }
     /**/print("ИГР LoginVC.hostDC-2: '\(String(describing: tf.text))'")
     lastHost = host
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) { [weak self] in
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
       // Удостоверяемся, что редактирование прекратилось.
       guard
         let self = self,
