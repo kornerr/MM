@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
   let password = Field()
   let userName = Field()
   let version = UILabel()
-  var hostURL: URL?
+  var lastHost: String?
   var loadSystemInfoTask: URLSessionDataTask?
 
   override func viewDidLoad() {
@@ -126,16 +126,17 @@ extension LoginViewController {
   @objc private func hostDidChange(tf: UITextField) {
     /**/print("ИГР LoginVC.hostDC-1: '\(tf.text)'")
     guard
-      let urlString = tf.text,
-      let url = URL(string: urlString),
-      url != hostURL
+      let host = tf.text,
+      host != lastHost,
+      let urlString = "http://\(host)/systemInfo",
+      let url = URL(string: urlString)
     else {
       return
     }
     /**/print("ИГР LoginVC.hostDC-2: '\(tf.text)'")
-    hostURL = url
+    lastHost = host
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
-      loadSystemInfo(url)
+      self.loadSystemInfo(url)
     }
   }
 
