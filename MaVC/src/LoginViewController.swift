@@ -46,7 +46,7 @@ extension LoginViewController {
         self?.processSystemInfo(data, response, error)
       }
     }
-    loadSystemInfoTask.resume()
+    loadSystemInfoTask?.resume()
   }
 
   private func processSystemInfo(
