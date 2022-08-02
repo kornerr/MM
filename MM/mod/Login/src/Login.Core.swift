@@ -73,7 +73,6 @@ extension Login {
       ctrl.m
         .map { $0.shouldRefreshHostLogo }
         .removeDuplicates()
-        .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
         .flatMap { [weak self] url -> AnyPublisher<UIImage?, Never> in
           guard let url = url else { return Just(nil).eraseToAnyPublisher() }
           return URLSession.shared.dataTaskPublisher(for: url)
