@@ -17,7 +17,11 @@ class LoginViewController: UIViewController {
   private let version = UILabel()
   private var lastHost: String?
   private var loadSystemInfoTask: URLSessionDataTask?
-  private var systemInfo: SystemInfo?
+  private var systemInfo: SystemInfo? {
+    didSet {
+      updateUI()
+    }
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,7 +48,7 @@ extension LoginViewController {
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
       DispatchQueue.main.async {
-        self?.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data)
+        self?.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data ?? Data())
       }
     }
     loadSystemInfoTask?.resume()
@@ -114,7 +118,7 @@ extension LoginViewController {
   }
 
   private func updateUI() {
-    headerTitle.text = "🎃 Murk in Models 🎃"
+    headerTitle.text = systemInfo?.domain.name ?? "🎃 Murk in Models 🎃"
 
     updateField(userName, fieldLabels[0])
     updateField(password, fieldLabels[1])
