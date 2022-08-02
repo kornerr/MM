@@ -8,15 +8,16 @@ class LoginViewController: UIViewController {
     let textFieldBG = UIView()
   }
 
-  let fieldLabels = ["Username", "Password", "Host"]
-  let form = UIView()
-  let headerTitle = UILabel()
-  let host = Field()
-  let password = Field()
-  let userName = Field()
-  let version = UILabel()
-  var lastHost: String?
-  var loadSystemInfoTask: URLSessionDataTask?
+  private let fieldLabels = ["Username", "Password", "Host"]
+  private let form = UIView()
+  private let headerTitle = UILabel()
+  private let host = Field()
+  private let password = Field()
+  private let userName = Field()
+  private let version = UILabel()
+  private var lastHost: String?
+  private var loadSystemInfoTask: URLSessionDataTask?
+  private var systemInfo: SystemInfo?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -43,18 +44,10 @@ extension LoginViewController {
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
       DispatchQueue.main.async {
-        self?.processSystemInfo(data, response, error)
+        self?.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data)
       }
     }
     loadSystemInfoTask?.resume()
-  }
-
-  private func processSystemInfo(
-    _ data: Data?,
-    _ response: URLResponse?,
-    _ error: Error?
-  ) {
-    /**/print("ИГР LoginVC.processSI data/response/error: '\(data)'/'\(response)'/'\(error)'")
   }
 
   private func setupUI() {
