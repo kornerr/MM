@@ -81,7 +81,7 @@ extension LoginViewController {
     headerLogo.rightAnchor /==/ view.rightAnchor - 8
     headerLogo.bottomAnchor /==/ headerTitle.topAnchor - 8
     headerLogo.heightAnchor /==/ 100
-    headerLogo.contentMode = .aspectFit
+    headerLogo.contentMode = .scaleAspectFit
     headerLogo.layer.cornerRadius = 100 / 2
     headerLogo.layer.masksToBounds = true
 
