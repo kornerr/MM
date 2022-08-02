@@ -78,13 +78,13 @@ extension LoginViewController {
     view.addSubview(form)
     view.addSubview(version)
 
-    headerLogo.leftAnchor /==/ view.leftAnchor + 8
-    headerLogo.rightAnchor /==/ view.rightAnchor - 8
+    headerLogo.centerXAnchor /==/ view.centerXAnchor
     headerLogo.bottomAnchor /==/ headerTitle.topAnchor - 8
+    headerLogo.widthAnchor /==/ headerLogo.heightAnchor
     headerLogo.heightAnchor /==/ 100
-    headerLogo.contentMode = .scaleAspectFit
+    headerLogo.contentMode = .scaleAspectFill
     headerLogo.layer.cornerRadius = 100 / 2
-    headerLogo.layer.masksToBounds = true
+    headerLogo.clipsToBounds = true//layer.masksToBounds = true
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
@@ -139,7 +139,7 @@ extension LoginViewController {
 
   private func tryLoadingHostLogo() {
     if
-      let host = tf.text,
+      let host = lastHost,
       !host.isEmpty,
       let id = systemInfo?.domain.logoResourceId,
       let url = URL(string: "http://\(host)/resource/\(id)")
