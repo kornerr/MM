@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
   private var systemInfo: SystemInfo? {
     didSet {
       updateUI()
+      tryLoadingHostLogo()
     }
   }
 
@@ -134,6 +135,19 @@ extension LoginViewController {
     field.textFieldBG.rightAnchor /==/ form.rightAnchor - 16
     field.textFieldBG.layer.borderWidth = 1
     field.textFieldBG.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
+  }
+
+  private func tryLoadingHostLogo() {
+    if
+      let host = tf.text,
+      !host.isEmpty,
+      let id = systemInfo?.domain.logoResourceId,
+      let url = URL(string: "http://\(host)/resource/\(id)")
+    {
+      loadHostLogo(url)
+    } else {
+      hostLogo = nil
+    }
   }
 
   private func updateField(_ field: Field, _ title: String) {
