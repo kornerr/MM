@@ -10,12 +10,19 @@ class LoginViewController: UIViewController {
 
   private let fieldLabels = ["Username", "Password", "Host"]
   private let form = UIView()
+  private let headerLogo = UIImageView()
   private let headerTitle = UILabel()
   private let host = Field()
   private let password = Field()
   private let userName = Field()
   private let version = UILabel()
+  private var hostLogo: UIImage? {
+    didSet {
+      updateUI()
+    }
+  }
   private var lastHost: String?
+  private var loadHostLogoTask: URLSessionDataTask?
   private var loadSystemInfoTask: URLSessionDataTask?
   private var systemInfo: SystemInfo? {
     didSet {
@@ -44,6 +51,16 @@ extension LoginViewController {
     return ceil(maxLength + delta)
   }
 
+  private func loadHostLogo(_ url: URL) {
+    loadHostLogoTask?.cancel()
+    loadHostLogoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+      DispatchQueue.main.async {
+        self?.hostLogo = UIImage(data: data ?? Data())
+      }
+    }
+    loadHostLogoTask?.resume()
+  }
+
   private func loadSystemInfo(_ url: URL) {
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -55,9 +72,18 @@ extension LoginViewController {
   }
 
   private func setupUI() {
+    view.addSubview(headerLogo)
     view.addSubview(headerTitle)
     view.addSubview(form)
     view.addSubview(version)
+
+    headerLogo.leftAnchor /==/ view.leftAnchor + 8
+    headerLogo.rightAnchor /==/ view.rightAnchor - 8
+    headerLogo.bottomAnchor /==/ headerTitle.topAnchor - 8
+    headerLogo.heightAnchor /==/ 100
+    headerLogo.contentMode = .aspectFit
+    headerLogo.layer.cornerRadius = 100 / 2
+    headerLogo.layer.masksToBounds = true
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
@@ -118,6 +144,7 @@ extension LoginViewController {
   }
 
   private func updateUI() {
+    headerLogo.image = hostLogo
     headerTitle.text = systemInfo?.domain.name ?? "🎃 Murk in Models 🎃"
 
     updateField(userName, fieldLabels[0])
