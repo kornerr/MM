@@ -11,11 +11,13 @@ extension LoginUI {
 
     public var body: some View {
       VStack {
+          /*
         if let logo = vm.hostLogo {
           Image(uiImage: logo)
             .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 100)
+            .scaledToFill()
+            //.aspectRatio(contentMode: .fit)
+            .frame(width: 100, height: 100)
             .clipShape(Circle())
         }
         Text(vm.hostName)
@@ -23,6 +25,7 @@ extension LoginUI {
           .font(Font.system(.title))
           .grayscale(1)
           .padding(.bottom, 16)
+          */
         VStack {
           Group {
             HStack {
@@ -59,10 +62,12 @@ extension LoginUI {
         }
           .padding(8)
           .border(Color.gray.opacity(0.2), width: 1)
-          .padding(8)
+          //.padding(8)
+          /*
         Text(vm.version)
           .font(Font.system(.footnote))
           .padding(.top, 8)
+          */
       }
       .animation(.easeInOut(duration: 0.3))
     }
