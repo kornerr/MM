@@ -10,7 +10,7 @@ extension LoginUI {
     }
 
     public var body: some View {
-      VStack {
+      VStack() {
           /*
         if let logo = vm.hostLogo {
           Image(uiImage: logo)
@@ -62,13 +62,14 @@ extension LoginUI {
         }
           .padding(8)
           .border(Color.gray.opacity(0.2), width: 1)
-          //.padding(8)
+          .padding(8)
           /*
         Text(vm.version)
           .font(Font.system(.footnote))
           .padding(.top, 8)
           */
       }
+      .edgesIgnoringSafeArea(.all)
       .animation(.easeInOut(duration: 0.3))
     }
   }
