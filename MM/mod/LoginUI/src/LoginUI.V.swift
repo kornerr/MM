@@ -19,6 +19,7 @@ extension LoginUI {
           .background(
             GeometryReader { geom in
               /**/print("ИГР LoginUV.VStack-2 size: '\(geom.size)'")
+              return EmptyView()
             }
           )
           .border(.red)
@@ -26,6 +27,7 @@ extension LoginUI {
         .background(
           GeometryReader { geom in
             /**/print("ИГР LoginUV.VStack-1 size: '\(geom.size)'")
+            return EmptyView()
           }
         )
         .edgesIgnoringSafeArea(.all)
