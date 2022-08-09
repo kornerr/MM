@@ -10,6 +10,29 @@ extension LoginUI {
     }
 
     public var body: some View {
+      VStack {
+        VStack {
+          Text("Abc")
+          .border(.blue)
+        }
+          .frame(height: 300)
+          .background(
+            GeometryReader { geom in
+              /**/print("ИГР LoginUV.VStack-2 size: '\(geom.size)'")
+            }
+          )
+          .border(.red)
+      }
+        .background(
+          GeometryReader { geom in
+            /**/print("ИГР LoginUV.VStack-1 size: '\(geom.size)'")
+          }
+        )
+        .edgesIgnoringSafeArea(.all)
+        .animation(.easeInOut(duration: 0.3))
+    }
+
+    public var _body: some View {
       VStack() {
           /*
         if let logo = vm.hostLogo {
