@@ -20,7 +20,7 @@ extension LoginUI {
             GeometryReader { geom in
               Color.clear
                 .onAppear {
-                  /**/print("ИГР LoginUV.VStack-2 size: '\(geom.size)'")
+                  /**/print("ИГР LoginUV.VStack-2 frame: '\(geom.frame(in: .local))'")
                 }
             }
           )
@@ -29,7 +29,7 @@ extension LoginUI {
         .background(
           Color.clear
             .onAppear {
-              /**/print("ИГР LoginUV.VStack-1 size: '\(geom.size)'")
+              /**/print("ИГР LoginUV.VStack-1 frame: '\(geom.frame(in: .local))'")
             }
           }
         )
