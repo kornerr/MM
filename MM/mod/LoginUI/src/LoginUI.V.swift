@@ -18,16 +18,19 @@ extension LoginUI {
           .frame(height: 300)
           .background(
             GeometryReader { geom in
-              /**/print("ИГР LoginUV.VStack-2 size: '\(geom.size)'")
-              return EmptyView()
+              Color.clear
+                .onAppear {
+                  /**/print("ИГР LoginUV.VStack-2 size: '\(geom.size)'")
+                }
             }
           )
           .border(.red)
       }
         .background(
-          GeometryReader { geom in
-            /**/print("ИГР LoginUV.VStack-1 size: '\(geom.size)'")
-            return EmptyView()
+          Color.clear
+            .onAppear {
+              /**/print("ИГР LoginUV.VStack-1 size: '\(geom.size)'")
+            }
           }
         )
         .edgesIgnoringSafeArea(.all)
