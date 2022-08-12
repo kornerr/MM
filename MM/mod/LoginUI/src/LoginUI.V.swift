@@ -13,38 +13,19 @@ extension LoginUI {
       VStack {
         Spacer()
         VStack(spacing: 0) {
-          HStack {
-            Text(vm.usernameLabel + ":")
-              .frame(width: vm.labelWidth, alignment: .leading)
-            TextField(vm.usernameLabel, text: $vm.username)
-              .keyboardType(.alphabet)
-              .padding(8)
-              .border(Color.gray.opacity(0.2), width: 1)
+          username
+          password
+          host
+
+
+
+          Group {
           }
-            .border(.red)
-          HStack {
-            Text(vm.passwordLabel + ":")
-              .frame(width: vm.labelWidth, alignment: .leading)
-            SecureField(vm.passwordLabel, text: $vm.password)
-              .keyboardType(.alphabet)
-              .padding(8)
-              .border(Color.gray.opacity(0.2), width: 1)
-          }
-            .border(.green)
-          HStack {
-            Text(vm.hostLabel + ":")
-              .frame(width: vm.hostLabelWidth, alignment: .leading)
-            if vm.isLoadingSystemInfo {
-              ActivityIndicator(style: .medium)
-            }
-            TextField(vm.hostLabel, text: $vm.host)
-              .keyboardType(.URL)
-              .padding(8)
-              .border(Color.gray.opacity(0.2), width: 1)
-          }
-            .border(.blue)
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .padding(8)
         }
-          .padding(8)
+          .padding(16)
           .border(Color.gray.opacity(0.2), width: 1)
           .padding(8)
         Spacer()
@@ -81,11 +62,6 @@ extension LoginUI {
           .padding(.bottom, 16)
           */
         VStack {
-          Group {
-          }
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
-            .padding(8)
         }
           .padding(8)
           .border(Color.gray.opacity(0.2), width: 1)
@@ -101,3 +77,48 @@ extension LoginUI {
     }
   }
 }
+
+extension LoginUI.V {
+  private var host: some View {
+    HStack {
+      Text(vm.hostLabel + ":")
+        .frame(width: vm.hostLabelWidth, alignment: .leading)
+      if vm.isLoadingSystemInfo {
+        ActivityIndicator(style: .medium)
+      }
+      TextField(vm.hostLabel, text: $vm.host)
+        .keyboardType(.URL)
+        .padding(8)
+        .border(Color.gray.opacity(0.2), width: 1)
+    }
+      .border(.blue)
+  }
+
+  private var password: some View {
+    HStack {
+      Text(vm.passwordLabel + ":")
+        .frame(width: vm.labelWidth, alignment: .leading)
+      SecureField(vm.passwordLabel, text: $vm.password)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
+        .keyboardType(.alphabet)
+        .padding(8)
+        .border(Color.gray.opacity(0.2), width: 1)
+    }
+      .border(.green)
+  }
+
+  private var username: some View {
+    HStack {
+      Text(vm.usernameLabel + ":")
+        .frame(width: vm.labelWidth, alignment: .leading)
+      TextField(vm.usernameLabel, text: $vm.username)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
+        .keyboardType(.alphabet)
+        .padding(8)
+        .border(Color.gray.opacity(0.2), width: 1)
+    }
+      .border(.red)
+  }
+
