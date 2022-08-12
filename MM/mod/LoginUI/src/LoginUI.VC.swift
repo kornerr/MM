@@ -7,8 +7,8 @@ extension LoginUI {
     public override func viewDidLoad() {
       super.viewDidLoad()
       guard let content = content else { return }
-      /**/view.backgroundColor = .yellow
-      /**/content.view.backgroundColor = .blue
+      /**///view.backgroundColor = .yellow
+      /**///content.view.backgroundColor = .blue
       view.addSubview(content.view)
       content.view.translatesAutoresizingMaskIntoConstraints = false
       NSLayoutConstraint.activate([
