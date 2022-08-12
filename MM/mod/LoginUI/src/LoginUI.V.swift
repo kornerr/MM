@@ -13,6 +13,16 @@ extension LoginUI {
       VStack {
         Spacer()
         HStack {
+          Text(vm.usernameLabel + ":")
+            .frame(width: vm.labelWidth, alignment: .leading)
+          TextField(vm.usernameLabel, text: $vm.username)
+            .keyboardType(.alphabet)
+            .padding(8)
+            .border(Color.gray.opacity(0.2), width: 1)
+        }
+
+        /*
+        HStack {
           Spacer()
           Text("Abc")
             .border(.blue)
@@ -31,6 +41,9 @@ extension LoginUI {
             }
           )
           .border(.red)
+        */
+
+
         Spacer()
       }
         .background(
@@ -66,14 +79,6 @@ extension LoginUI {
           */
         VStack {
           Group {
-            HStack {
-              Text(vm.usernameLabel + ":")
-                .frame(width: vm.labelWidth, alignment: .leading)
-              TextField(vm.usernameLabel, text: $vm.username)
-                .keyboardType(.alphabet)
-                .padding(8)
-                .border(Color.gray.opacity(0.2), width: 1)
-            }
             HStack {
               Text(vm.passwordLabel + ":")
                 .frame(width: vm.labelWidth, alignment: .leading)
