@@ -11,28 +11,35 @@ extension LoginUI {
 
     public var body: some View {
       VStack {
-        VStack {
+        Spacer()
+        HStack {
+          Spacer()
           Text("Abc")
-          .border(.blue)
+            .border(.blue)
+          Spacer()
         }
           .frame(height: 300)
           .background(
             GeometryReader { geom in
               Color.clear
                 .onAppear {
-                  /**/print("ИГР LoginUV.VStack-2 frame: '\(geom.frame(in: .local))'")
+                  /**/print("ИГР LoginUV.VStack-2 frame: '\(geom.frame(in: .global))'")
                 }
             }
           )
           .border(.red)
+        Spacer()
       }
         .background(
-          Color.clear
-            .onAppear {
-              /**/print("ИГР LoginUV.VStack-1 frame: '\(geom.frame(in: .local))'")
-            }
+          GeometryReader { geom in
+            Color.clear
+          
+              .onAppear {
+                /**/print("ИГР LoginUV.VStack-1 frame: '\(geom.frame(in: .global))'")
+              }
           }
         )
+        .border(.yellow)
         .edgesIgnoringSafeArea(.all)
         .animation(.easeInOut(duration: 0.3))
     }
