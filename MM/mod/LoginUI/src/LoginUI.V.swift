@@ -14,7 +14,9 @@ extension LoginUI {
         Spacer()
         VStack(spacing: 0) {
           username
+            .padding(.bottom, 16)
           password
+            .padding(.bottom, 16)
           host
         }
           .padding(16)
@@ -110,4 +112,4 @@ extension LoginUI.V {
     }
       .border(.red)
   }
-
+}
