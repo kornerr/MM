@@ -16,14 +16,6 @@ extension LoginUI {
           username
           password
           host
-
-
-
-          Group {
-          }
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
-            .padding(8)
         }
           .padding(16)
           .border(Color.gray.opacity(0.2), width: 1)
@@ -61,11 +53,6 @@ extension LoginUI {
           .grayscale(1)
           .padding(.bottom, 16)
           */
-        VStack {
-        }
-          .padding(8)
-          .border(Color.gray.opacity(0.2), width: 1)
-          .padding(8)
           /*
         Text(vm.version)
           .font(Font.system(.footnote))
@@ -87,6 +74,8 @@ extension LoginUI.V {
         ActivityIndicator(style: .medium)
       }
       TextField(vm.hostLabel, text: $vm.host)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
         .keyboardType(.URL)
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
