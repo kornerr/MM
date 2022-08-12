@@ -23,7 +23,10 @@ extension LoginUI {
             GeometryReader { geom in
               Color.clear
                 .onAppear {
-                  /**/print("ИГР LoginUV.VStack-2 frame: '\(geom.frame(in: .global))'")
+                  let b = UIScreen.main.bounds
+                  let f = geom.frame(in: .global)
+                  let shouldBeY = b.height / 2 - f.height / 2
+                  /**/print("ИГР LoginUV.HStack shouldBY/frame: '\(shouldBeY)'/'\(f)'")
                 }
             }
           )
@@ -35,7 +38,7 @@ extension LoginUI {
             Color.clear
           
               .onAppear {
-                /**/print("ИГР LoginUV.VStack-1 frame: '\(geom.frame(in: .global))'")
+                /**/print("ИГР LoginUV.VStack frame: '\(geom.frame(in: .global))'")
               }
           }
         )
