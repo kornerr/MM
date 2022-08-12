@@ -12,38 +12,41 @@ extension LoginUI {
     public var body: some View {
       VStack {
         Spacer()
-        HStack {
-          Text(vm.usernameLabel + ":")
-            .frame(width: vm.labelWidth, alignment: .leading)
-          TextField(vm.usernameLabel, text: $vm.username)
-            .keyboardType(.alphabet)
-            .padding(8)
-            .border(Color.gray.opacity(0.2), width: 1)
-        }
-
-        /*
-        HStack {
-          Spacer()
-          Text("Abc")
-            .border(.blue)
-          Spacer()
-        }
-          .frame(height: 300)
-          .background(
-            GeometryReader { geom in
-              Color.clear
-                .onAppear {
-                  let b = UIScreen.main.bounds
-                  let f = geom.frame(in: .global)
-                  let shouldBeY = b.height / 2 - f.height / 2
-                  /**/print("ИГР LoginUV.HStack shouldBY/frame: '\(shouldBeY)'/'\(f)'")
-                }
+        VStack(spacing: 0) {
+          HStack {
+            Text(vm.usernameLabel + ":")
+              .frame(width: vm.labelWidth, alignment: .leading)
+            TextField(vm.usernameLabel, text: $vm.username)
+              .keyboardType(.alphabet)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
+            .border(.red)
+          HStack {
+            Text(vm.passwordLabel + ":")
+              .frame(width: vm.labelWidth, alignment: .leading)
+            SecureField(vm.passwordLabel, text: $vm.password)
+              .keyboardType(.alphabet)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
+            .border(.green)
+          HStack {
+            Text(vm.hostLabel + ":")
+              .frame(width: vm.hostLabelWidth, alignment: .leading)
+            if vm.isLoadingSystemInfo {
+              ActivityIndicator(style: .medium)
             }
-          )
-          .border(.red)
-        */
-
-
+            TextField(vm.hostLabel, text: $vm.host)
+              .keyboardType(.URL)
+              .padding(8)
+              .border(Color.gray.opacity(0.2), width: 1)
+          }
+            .border(.blue)
+        }
+          .padding(8)
+          .border(Color.gray.opacity(0.2), width: 1)
+          .padding(8)
         Spacer()
       }
         .background(
@@ -79,25 +82,6 @@ extension LoginUI {
           */
         VStack {
           Group {
-            HStack {
-              Text(vm.passwordLabel + ":")
-                .frame(width: vm.labelWidth, alignment: .leading)
-              SecureField(vm.passwordLabel, text: $vm.password)
-                .keyboardType(.alphabet)
-                .padding(8)
-                .border(Color.gray.opacity(0.2), width: 1)
-            }
-            HStack {
-              Text(vm.hostLabel + ":")
-                .frame(width: vm.hostLabelWidth, alignment: .leading)
-              if vm.isLoadingSystemInfo {
-                ActivityIndicator(style: .medium)
-              }
-              TextField(vm.hostLabel, text: $vm.host)
-                .keyboardType(.URL)
-                .padding(8)
-                .border(Color.gray.opacity(0.2), width: 1)
-            }
           }
             .autocapitalization(.none)
             .disableAutocorrection(true)
