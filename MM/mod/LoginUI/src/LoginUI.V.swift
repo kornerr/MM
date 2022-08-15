@@ -14,9 +14,9 @@ extension LoginUI {
         Spacer()
         VStack(spacing: 0) {
           username
-            .padding(.bottom, 16)
+            .padding(.bottom, 24)
           password
-            .padding(.bottom, 16)
+            .padding(.bottom, 24)
           host
         }
           .padding(16)
@@ -82,7 +82,6 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
-      .border(.blue)
   }
 
   private var password: some View {
@@ -96,7 +95,6 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
-      .border(.green)
   }
 
   private var username: some View {
@@ -110,6 +108,5 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
-      .border(.red)
   }
 }
