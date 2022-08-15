@@ -22,6 +22,7 @@ extension LoginUI {
           .padding(16)
           .border(Color.gray.opacity(0.2), width: 1)
           .padding(8)
+          .overlay(version)
         Spacer()
       }
         .background(
@@ -54,11 +55,6 @@ extension LoginUI {
           .font(Font.system(.title))
           .grayscale(1)
           .padding(.bottom, 16)
-          */
-          /*
-        Text(vm.version)
-          .font(Font.system(.footnote))
-          .padding(.top, 8)
           */
       }
       .edgesIgnoringSafeArea(.all)
@@ -108,5 +104,11 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
+  }
+
+  private var version: some View {
+    Text(vm.version)
+      .font(Font.system(.footnote))
+      .offset(y: 120)
   }
 }
