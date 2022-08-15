@@ -88,7 +88,7 @@ extension LoginViewController {
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
-    headerTitle.bottomAnchor /==/ form.topAnchor - 32
+    headerTitle.centerYAnchor /==/ view.centerYAnchor - 140
     headerTitle.textAlignment = .center
     headerTitle.font = UIFont.preferredFont(forTextStyle: .title1)
     headerTitle.numberOfLines = 1
@@ -115,7 +115,7 @@ extension LoginViewController {
     host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
 
     version.horizontalAnchors /==/ view.horizontalAnchors
-    version.topAnchor /==/ form.bottomAnchor + 24
+    version.centerYAnchor /==/ view.centerYAnchor + 120
     version.font = UIFont.preferredFont(forTextStyle: .footnote)
     version.textAlignment = .center
   }
