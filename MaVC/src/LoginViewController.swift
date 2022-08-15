@@ -94,7 +94,7 @@ extension LoginViewController {
     headerTitle.numberOfLines = 1
 
     form.horizontalAnchors /==/ view.horizontalAnchors + 8
-    form.centerYAnchor /==/ view.centerYAnchor + 16
+    form.centerYAnchor /==/ view.centerYAnchor
     form.layer.borderWidth = 1
     form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
 
