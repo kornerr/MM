@@ -26,16 +26,6 @@ extension LoginUI {
           .overlay(title)
         Spacer()
       }
-        .background(
-          GeometryReader { geom in
-            Color.clear
-          
-              .onAppear {
-                /**/print("ИГР LoginUV.VStack frame: '\(geom.frame(in: .global))'")
-              }
-          }
-        )
-        .border(.yellow)
         .edgesIgnoringSafeArea(.all)
         .animation(.easeInOut(duration: 0.3))
     }
