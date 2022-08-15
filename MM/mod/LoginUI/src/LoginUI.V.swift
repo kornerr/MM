@@ -94,7 +94,7 @@ extension LoginUI.V {
       .lineLimit(1)
       .font(Font.system(.title))
       .grayscale(1)
-      .offset(y: -130)
+      .offset(y: -140)
   }
 
   private var username: some View {
