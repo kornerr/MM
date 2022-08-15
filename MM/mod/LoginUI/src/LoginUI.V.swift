@@ -23,6 +23,7 @@ extension LoginUI {
           .border(Color.gray.opacity(0.2), width: 1)
           .padding(8)
           .overlay(version)
+          .overlay(title)
         Spacer()
       }
         .background(
@@ -50,11 +51,6 @@ extension LoginUI {
             .frame(width: 100, height: 100)
             .clipShape(Circle())
         }
-        Text(vm.hostName)
-          .lineLimit(1)
-          .font(Font.system(.title))
-          .grayscale(1)
-          .padding(.bottom, 16)
           */
       }
       .edgesIgnoringSafeArea(.all)
@@ -91,6 +87,14 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
+  }
+
+  private var title: some View {
+    Text(vm.hostName)
+      .lineLimit(1)
+      .font(Font.system(.title))
+      .grayscale(1)
+      .offset(y: -130)
   }
 
   private var username: some View {
