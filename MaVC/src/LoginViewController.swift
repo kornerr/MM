@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
   private let headerLogo = UIImageView()
   private let headerTitle = UILabel()
   private let host = Field()
+  private let hostActivityIndicator = UIActivityIndicatorView(style: .medium)
   private let password = Field()
   private let userName = Field()
   private let version = UILabel()
@@ -77,6 +78,7 @@ extension LoginViewController {
     view.addSubview(headerTitle)
     view.addSubview(form)
     view.addSubview(version)
+    form.addSubview(hostActivityIndicator)
 
     headerLogo.centerXAnchor /==/ view.centerXAnchor
     headerLogo.centerYAnchor /==/ view.centerYAnchor - 220
@@ -113,6 +115,11 @@ extension LoginViewController {
     userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
     password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
     host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
+
+    hostActivityIndicator.centerYAnchor /==/ host.textFieldBG.centerYAnchor
+    hostActivityIndicator.rightAnchor /==/ host.textFieldBG.leftAnchor - 8
+    hostActivityIndicator.hidesWhenStopped = true
+    /**/hostActivityIndicator.startAnimating()
 
     version.horizontalAnchors /==/ view.horizontalAnchors
     version.centerYAnchor /==/ view.centerYAnchor + 120
