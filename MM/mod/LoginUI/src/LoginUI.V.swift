@@ -22,32 +22,18 @@ extension LoginUI {
           .padding(16)
           .border(Color.gray.opacity(0.2), width: 1)
           .padding(8)
-          .overlay(version)
+          .overlay(logo)
           .overlay(title)
+          .overlay(version)
         Spacer()
       }
         .edgesIgnoringSafeArea(.all)
         .animation(.easeInOut(duration: 0.3))
     }
-
-    public var _body: some View {
-      VStack() {
-          /*
-        if let logo = vm.hostLogo {
-          Image(uiImage: logo)
-            .resizable()
-            .scaledToFill()
-            //.aspectRatio(contentMode: .fit)
-            .frame(width: 100, height: 100)
-            .clipShape(Circle())
-        }
-          */
-      }
-      .edgesIgnoringSafeArea(.all)
-      .animation(.easeInOut(duration: 0.3))
-    }
   }
 }
+
+// MARK: - Поля ввода
 
 extension LoginUI.V {
   private var host: some View {
@@ -79,14 +65,6 @@ extension LoginUI.V {
     }
   }
 
-  private var title: some View {
-    Text(vm.hostName)
-      .lineLimit(1)
-      .font(Font.system(.title))
-      .grayscale(1)
-      .offset(y: -140)
-  }
-
   private var username: some View {
     HStack {
       Text(vm.usernameLabel + ":")
@@ -98,6 +76,32 @@ extension LoginUI.V {
         .padding(8)
         .border(Color.gray.opacity(0.2), width: 1)
     }
+  }
+}
+
+// MARK: - Прочие элементы
+
+extension LoginUI.V {
+  private var logo: some View {
+    VStack {
+      if let img = vm.hostLogo {
+        Image(uiImage: img)
+          .resizable()
+          .scaledToFill()
+          .frame(width: 100, height: 100)
+          .clipShape(Circle())
+          /**/.border(.red)
+          .offset(y: -200)
+      }
+    }
+  }
+
+  private var title: some View {
+    Text(vm.hostName)
+      .lineLimit(1)
+      .font(Font.system(.title))
+      .grayscale(1)
+      .offset(y: -140)
   }
 
   private var version: some View {
