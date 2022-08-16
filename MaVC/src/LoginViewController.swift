@@ -64,10 +64,13 @@ extension LoginViewController {
   }
 
   private func loadSystemInfo(_ url: URL) {
+    hostActivityIndicator.startAnimating()
     loadSystemInfoTask?.cancel()
     loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
       DispatchQueue.main.async {
-        self?.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data ?? Data())
+        guard let self = self else { return }
+        self.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data ?? Data())
+        self.hostActivityIndicator.stopAnimating()
       }
     }
     loadSystemInfoTask?.resume()
@@ -119,7 +122,6 @@ extension LoginViewController {
     hostActivityIndicator.centerYAnchor /==/ host.textFieldBG.centerYAnchor
     hostActivityIndicator.rightAnchor /==/ host.textFieldBG.leftAnchor - 8
     hostActivityIndicator.hidesWhenStopped = true
-    /**/hostActivityIndicator.startAnimating()
 
     version.horizontalAnchors /==/ view.horizontalAnchors
     version.centerYAnchor /==/ view.centerYAnchor + 120
