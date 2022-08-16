@@ -79,12 +79,12 @@ extension LoginViewController {
     view.addSubview(version)
 
     headerLogo.centerXAnchor /==/ view.centerXAnchor
-    headerLogo.bottomAnchor /==/ headerTitle.topAnchor - 8
+    headerLogo.centerYAnchor /==/ view.centerYAnchor - 220
     headerLogo.widthAnchor /==/ headerLogo.heightAnchor
     headerLogo.heightAnchor /==/ 100
     headerLogo.contentMode = .scaleAspectFill
     headerLogo.layer.cornerRadius = 100 / 2
-    headerLogo.clipsToBounds = true//layer.masksToBounds = true
+    headerLogo.clipsToBounds = true
 
     headerTitle.leftAnchor /==/ view.leftAnchor + 8
     headerTitle.rightAnchor /==/ view.rightAnchor - 8
