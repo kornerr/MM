@@ -47,9 +47,11 @@ extension Login {
     }
 
     private func stopCore() {
-      core?.ui.dismiss(animated: true)
-      core = nil
-      wnd = nil
+      core?.ui.dismiss(animated: true) { [weak self] in
+        guard let self = self else { return }
+        self.core = nil
+        self.wnd = nil
+      }
       // Уведомляем модель Service об исчезновении модели Core.
       deleteCore.send()
     }
