@@ -3,11 +3,11 @@ import Combine
 extension MPAK {
   open class Controller<Model> {
     public let m: CurrentValueSubject<Model, Never>
+    public var subscriptions = [AnyCancellable]()
 
     private var debugClassName: String?
     private var debugLog: ((String) -> Void)?
     private var model: Model
-    private var subscriptions = [AnyCancellable]()
 
     public init(
       _ model: Model,
@@ -23,20 +23,20 @@ extension MPAK {
     public func pipe<T>(
       dbg: String? = nil,
       _ node: AnyPublisher<T, Never>,
-      _ reaction1: @escaping (inout Model) -> Void,
-      _ reaction2: ((inout Model) -> Void)? = nil
+      _ reaction: @escaping (inout Model) -> Void,
+      _ reversion: ((inout Model) -> Void)? = nil
     ) {
       node
         .sink { [weak self] _ in
           assert(Thread.isMainThread)
           guard let self = self else { return }
           self.dbgLog(dbg)
-          reaction1(&self.model)
-          self.m.send(self.model)
-          if let reaction = reaction2 {
-            reaction(&self.model)
-            self.m.send(self.model)
+          reaction(&self.model)
+          let modelCopy = self.model
+          if let rev = reversion {
+            rev(&self.model)
           }
+          self.m.send(modelCopy)
         }
         .store(in: &subscriptions)
     }
@@ -44,20 +44,20 @@ extension MPAK {
     public func pipeOptional<T>(
       dbg: String? = nil,
       _ node: AnyPublisher<T?, Never>,
-      _ reaction1: @escaping (inout Model, T?) -> Void,
-      _ reaction2: ((inout Model, T?) -> Void)? = nil
+      _ reaction: @escaping (inout Model, T?) -> Void,
+      _ reversion: ((inout Model, T?) -> Void)? = nil
     ) {
       node
         .sink { [weak self] value in
           assert(Thread.isMainThread)
           guard let self = self else { return }
           self.dbgLog(dbg)
-          reaction1(&self.model, value)
-          self.m.send(self.model)
-          if let reaction = reaction2 {
-            reaction(&self.model, value)
-            self.m.send(self.model)
+          reaction(&self.model, value)
+          let modelCopy = self.model
+          if let rev = reversion {
+            rev(&self.model, value)
           }
+          self.m.send(modelCopy)
         }
         .store(in: &subscriptions)
     }
@@ -65,20 +65,20 @@ extension MPAK {
     public func pipeValue<T>(
       dbg: String? = nil,
       _ node: AnyPublisher<T, Never>,
-      _ reaction1: @escaping (inout Model, T) -> Void,
-      _ reaction2: ((inout Model, T) -> Void)? = nil
+      _ reaction: @escaping (inout Model, T) -> Void,
+      _ reversion: ((inout Model, T) -> Void)? = nil
     ) {
       node
         .sink { [weak self] value in
           assert(Thread.isMainThread)
           guard let self = self else { return }
           self.dbgLog(dbg)
-          reaction1(&self.model, value)
-          self.m.send(self.model)
-          if let reaction = reaction2 {
-            reaction(&self.model, value)
-            self.m.send(self.model)
+          reaction(&self.model, value)
+          let modelCopy = self.model
+          if let rev = reversion {
+            rev(&self.model, value)
           }
+          self.m.send(modelCopy)
         }
         .store(in: &subscriptions)
     }
