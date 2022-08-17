@@ -2,23 +2,36 @@ import Combine
 import MPAK
 
 extension Login {
-  public final class Service/*: MPAK.Controller<Service.Model>*/ {
+  public final class Service: MPAK.Controller<Service.Model> {
     private let coreModel = PassthroughSubject<Login.Core.Model, Never>()
-    private let ctrl: Controller
     private let deleteCore = PassthroughSubject<Void, Never>()
     private var core: Core?
-    private var subscriptions = [AnyCancellable]()
     private var wnd: UIWindow?
 
     public init() {
-      ctrl =
-        Controller(
-          coreModel.eraseToAnyPublisher(),
-          deleteCore.eraseToAnyPublisher(),
-          Just(false).eraseToAnyPublisher()
-        )
+      super.init(
+        Model(),
+        debugClassName: "LoginS",
+        debugLog: { print($0) }
+      )
+      setupPipes()
       setupCore()
     }
+  }
+}
+
+// MARK: - Pipes
+
+extension Login.Service {
+  private func setupPipes() {
+    pipeOptional(
+      dbg: "core",
+      Publishers.Merge(
+        coreModel.map { $0 },
+        deleteCore.map { nil }
+      ).eraseToAnyPublisher(),
+      { $0.core = $1 }
+    )
   }
 }
 
@@ -27,17 +40,9 @@ extension Login {
 extension Login.Service {
   private func setupCore() {
     // Запуск Core.
-    ctrl.m
-      .filter { $0.shouldStartCore }
+    m.filter { $0.shouldStartCore }
       .receive(on: DispatchQueue.main)
       .sink { _ in self.startCore() }
-      .store(in: &subscriptions)
-
-    // Завершение Core.
-    ctrl.m
-      .filter { $0.isAccessTokenValid }
-      .receive(on: DispatchQueue.main)
-      .sink { _ in self.stopCore() }
       .store(in: &subscriptions)
   }
 
