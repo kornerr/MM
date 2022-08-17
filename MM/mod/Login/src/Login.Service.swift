@@ -40,7 +40,7 @@ extension Login {
       wnd?.rootViewController?.present(core.ui, animated: true)
 
       // Транслируем модель Core в модель Service.
-      core.ctrl.m
+      core.m
         .receive(on: DispatchQueue.main)
         .sink { model in self.coreModel.send(model) }
         .store(in: &core.subscriptions)

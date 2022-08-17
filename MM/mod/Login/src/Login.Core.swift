@@ -1,29 +1,24 @@
 import Combine
 import LoginUI
+import MPAK
 import Net
 import SwiftUI
 
 extension Login {
-  public final class Core {
-    let ctrl: Controller
+  public final class Core: MPAK.Controller<Core.Model> {
     let ui = LoginUI.VC()
-    var subscriptions = [AnyCancellable]()
     private let isLoadingSystemInfo = PassthroughSubject<Void, Never>()
     private let resultHostLogo = PassthroughSubject<UIImage?, Never>()
     private let resultSystemInfo = PassthroughSubject<Net.SystemInfo?, Never>()
     private let vm = LoginUI.VM()
 
     public init() {
-      ctrl =
-        Controller(
-          vm.signIn.eraseToAnyPublisher(),
-          vm.$host.removeDuplicates().eraseToAnyPublisher(),
-          isLoadingSystemInfo.eraseToAnyPublisher(),
-          vm.$password.removeDuplicates().eraseToAnyPublisher(),
-          resultHostLogo.eraseToAnyPublisher(),
-          resultSystemInfo.eraseToAnyPublisher(),
-          vm.$username.removeDuplicates().eraseToAnyPublisher()
-        )
+      super.init(
+        Model(),
+        debugClassName: "LoginC",
+        debugLog: { print($0) }
+      )
+
       setupPipes()
       setupUI()
       setupNetwork()
@@ -34,8 +29,7 @@ extension Login {
 extension Login.Core {
   private func setupNetwork() {
     // Загружаем информацию о системе при смене хоста.
-    ctrl.m
-      .map { $0.shouldRefreshSystemInfo }
+    m.map { $0.shouldRefreshSystemInfo }
       .removeDuplicates()
       .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
       .flatMap { [weak self] url -> AnyPublisher<Net.SystemInfo?, Never> in
@@ -51,10 +45,9 @@ extension Login.Core {
       .store(in: &subscriptions)
 
     // Загружаем логотип хоста.
-    ctrl.m
-      .map { $0.shouldRefreshHostLogo }
+    m.map { $0.shouldRefreshHostLogo }
       .removeDuplicates()
-      .flatMap { [weak self] url -> AnyPublisher<UIImage?, Never> in
+      .flatMap { url -> AnyPublisher<UIImage?, Never> in
         guard let url = url else { return Just(nil).eraseToAnyPublisher() }
         return URLSession.shared.dataTaskPublisher(for: url)
           .map { v in UIImage(data: v.data) }
@@ -67,6 +60,51 @@ extension Login.Core {
   }
 
   private func setupPipes() {
+    pipe(
+      dbg: "signI",
+      vm.signIn.eraseToAnyPublisher(),
+      { $0.buttons.isSignInPressed = true },
+      { $0.buttons.isSignInPressed = false }
+    )
+
+    pipeValue(
+      dbg: "host",
+      vm.$host.removeDuplicates().eraseToAnyPublisher(),
+      { $0.host = $1 }
+    )
+
+    pipeValue(
+      dbg: "isLSI",
+      Publishers.Merge(
+        isLoadingSystemInfo.map { _ in true },
+        resultSystemInfo.map { _ in false }
+      ).eraseToAnyPublisher(),
+      { $0.isLoadingSystemInfo = $1 }
+    )
+
+    pipeValue(
+      dbg: "password",
+      vm.$password.removeDuplicates().eraseToAnyPublisher(),
+      { $0.password = $1 }
+    )
+
+    pipeOptional(
+      dbg: "resultSI",
+      resultSystemInfo.eraseToAnyPublisher(),
+      { $0.systemInfo = $1 }
+    )
+
+    pipeValue(
+      dbg: "resultHL",
+      resultHostLogo.eraseToAnyPublisher(),
+      { $0.hostLogo = $1 }
+    )
+
+    pipeValue(
+      dbg: "username",
+      vm.$username.removeDuplicates().eraseToAnyPublisher(),
+      { $0.username = $1 }
+    )
   }
 
   private func setupUI() {
@@ -77,45 +115,39 @@ extension Login.Core {
     vm.version = "Version: MM-1"
 
     // Форматируем поле host.
-    ctrl.m
-      .compactMap { $0.shouldResetHost }
+    m.compactMap { $0.shouldResetHost }
       .receive(on: DispatchQueue.main)
       .sink { [weak self] v in self?.vm.host = v }
       .store(in: &subscriptions)
 
     // Форматируем поле password.
-    ctrl.m
-      .compactMap { $0.shouldResetPassword }
+    m.compactMap { $0.shouldResetPassword }
       .receive(on: DispatchQueue.main)
       .sink { [weak self] v in self?.vm.password = v }
       .store(in: &subscriptions)
 
     // Форматируем поле username.
-    ctrl.m
-      .compactMap { $0.shouldResetUsername }
+    m.compactMap { $0.shouldResetUsername }
       .receive(on: DispatchQueue.main)
       .sink { [weak self] v in self?.vm.username = v }
       .store(in: &subscriptions)
 
     // Отображаем имя хоста.
-    ctrl.m
-      .map { $0.shouldResetHostName }
+    m.map { $0.shouldResetHostName }
       .removeDuplicates()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] v in self?.vm.hostName = v }
       .store(in: &subscriptions)
 
-    // Отображаем загрузку системной инфы.
-    ctrl.m
-      .map { $0.isLoadingSystemInfo }
+    // Отображаем факт загрузки системной инфы.
+    m.map { $0.isLoadingSystemInfo }
       .removeDuplicates()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] v in self?.vm.isLoadingSystemInfo = v }
       .store(in: &subscriptions)
 
     // Отображаем логотип хоста.
-    ctrl.m
-      .map { $0.hostLogo }
+    m.map { $0.hostLogo }
       .removeDuplicates()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] img in self?.vm.hostLogo = img }
