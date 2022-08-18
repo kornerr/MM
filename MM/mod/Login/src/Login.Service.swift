@@ -5,8 +5,8 @@ extension Login {
   public final class Service: MPAK.Controller<Service.Model> {
     private let coreModel = PassthroughSubject<Login.Core.Model, Never>()
     private let deleteCore = PassthroughSubject<Void, Never>()
+    private var wnd = UIWindow(frame: UIScreen.main.bounds)
     private var core: Core?
-    private var wnd: UIWindow?
 
     public init() {
       super.init(
@@ -14,6 +14,11 @@ extension Login {
         debugClassName: "LoginS",
         debugLog: { print($0) }
       )
+
+      wnd.backgroundColor = .clear
+      wnd.rootViewController = UIViewController()
+      wnd.isHidden = true
+
       setupPipes()
       setupCore()
     }
@@ -50,8 +55,8 @@ extension Login.Service {
     let core = Login.Core()
     self.core = core
     core.ui.modalPresentationStyle = .overFullScreen
-    wnd = Self.createWindow()
-    wnd?.rootViewController?.present(core.ui, animated: true)
+    wnd.makeKeyAndVisible()
+    wnd.rootViewController?.present(core.ui, animated: true)
 
     // Транслируем модель Core в модель Service.
     core.m
@@ -64,17 +69,9 @@ extension Login.Service {
     core?.ui.dismiss(animated: true) { [weak self] in
       guard let self = self else { return }
       self.core = nil
-      self.wnd = nil
+      self.wnd.isHidden = true
     }
     // Уведомляем модель Service об исчезновении модели Core.
     deleteCore.send()
-  }
-
-  private static func createWindow() -> UIWindow {
-    let wnd = UIWindow(frame: UIScreen.main.bounds)
-    wnd.backgroundColor = .clear
-    wnd.rootViewController = UIViewController()
-    wnd.makeKeyAndVisible()
-    return wnd
   }
 }
