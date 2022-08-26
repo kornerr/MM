@@ -3,7 +3,9 @@ import UIKit
 
 extension LoginUI {
   public final class V: UIView {
-    struct Field {
+    public weak var delegate: LoginUIVDelegate?
+
+    private struct Field {
       let label = UILabel()
       let textField = UITextField()
       let textFieldBG = UIView()
@@ -15,12 +17,13 @@ extension LoginUI {
     private let host = Field()
     private let hostActivityIndicator = UIActivityIndicatorView(style: .medium)
     private let password = Field()
-    private let userName = Field()
+    private let username = Field()
     private let version = UILabel()
 
     override public init(frame: CGRect) {
       super.init(frame: frame)
       setupUI()
+      setupEditing()
     }
 
     @available(*, unavailable)
@@ -28,31 +31,61 @@ extension LoginUI {
   }
 }
 
-// MARK: - Поля аля VM.
+// MARK: - Поля ввода.
 
 extension LoginUI.V {
-  public var hostLabel = "" {
-    didSet {
-      host.label.text = hostLabel
+  public var hostLabel: String {
+    get {
+      host.label.text ?? ""
+    }
+    set {
+      host.label.text = newValue
     }
   }
 
   public var hostLogo: UIImage? {
-    didSet {
-      headerLogo.image = hostLogo
+    get {
+      headerLogo.image
+    }
+    set {
+      headerLogo.image = newValue
     }
   }
 
-  public var passwordLabel = "" {
-    didSet {
-      password.label.text = passwordLabel
+  public var passwordLabel: String {
+    get {
+      password.label.text ?? ""
+    }
+    set {
+      password.label.text = newValue
     }
   }
 
-  public var usernameLabel = "" {
-    didSet {
-      username.label.text = usernameLabel
+  public var usernameLabel: String {
+    get {
+      username.label.text ?? ""
     }
+    set {
+      username.label.text = newValue
+    }
+  }
+
+  private func setupEditing() {
+    username.textField.addTarget(self, action: #selector(usernameDidChange), for: .editingChanged)
+    password.textField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
+    host.textField.addTarget(self, action: #selector(hostDidChange), for: .editingChanged)
+  }
+
+  @objc private func hostDidChange(_: UITextField) {
+    delegate?.hostDidChange(hostLabel)
+  }
+
+  @objc private func passwordDidChange(_: UITextField) {
+    delegate?.passwordDidChange(passwordLabel)
+  }
+
+  @objc private func usernameDidChange(_: UITextField) {
+    delegate?.usernameDidChange(usernameLabel)
   }
 }
 
@@ -104,19 +137,16 @@ extension LoginUI.V {
     form.layer.borderWidth = 1
     form.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
 
-    setupField(userName)
-    userName.textField.addTarget(self, action: #selector(userNameDidChange), for: .editingChanged)
-    userName.textField.keyboardType = .alphabet
+    setupField(username)
+    username.textField.keyboardType = .alphabet
     setupField(password)
-    password.textField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
     password.textField.keyboardType = .alphabet
     password.textField.isSecureTextEntry = true
     setupField(host)
-    host.textField.addTarget(self, action: #selector(hostDidChange), for: .editingChanged)
     host.textField.keyboardType = .URL
 
-    userName.textFieldBG.topAnchor /==/ form.topAnchor + 16
-    userName.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
+    username.textFieldBG.topAnchor /==/ form.topAnchor + 16
+    username.textFieldBG.bottomAnchor /==/ password.textFieldBG.topAnchor - 24
     password.textFieldBG.bottomAnchor /==/ host.textFieldBG.topAnchor - 24
     host.textFieldBG.bottomAnchor /==/ form.bottomAnchor - 16
 
@@ -128,105 +158,5 @@ extension LoginUI.V {
     version.centerYAnchor /==/ centerYAnchor + 120
     version.font = /*UIFont*/.preferredFont(forTextStyle: .footnote)
     version.textAlignment = .center
-  }
-}
-
-
-extension LoginViewController {
-  var labelWidth: CGFloat {
-    let font = UIFont.preferredFont(forTextStyle: .body)
-    let attrs = [NSAttributedString.Key.font: font]
-    var maxLength: CGFloat = 0
-    for label in fieldLabels {
-      let length = (label as NSString).size(withAttributes: attrs).width
-      maxLength = max(maxLength, length)
-    }
-    let delta = (":" as NSString).size(withAttributes: attrs).width
-    return ceil(maxLength + delta)
-  }
-
-  private func loadHostLogo(_ url: URL) {
-    loadHostLogoTask?.cancel()
-    loadHostLogoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-      DispatchQueue.main.async {
-        self?.hostLogo = UIImage(data: data ?? Data())
-      }
-    }
-    loadHostLogoTask?.resume()
-  }
-
-  private func loadSystemInfo(_ url: URL) {
-    hostActivityIndicator.startAnimating()
-    loadSystemInfoTask?.cancel()
-    loadSystemInfoTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-      DispatchQueue.main.async {
-        guard let self = self else { return }
-        self.systemInfo = try? JSONDecoder().decode(SystemInfo.self, from: data ?? Data())
-        self.hostActivityIndicator.stopAnimating()
-      }
-    }
-    loadSystemInfoTask?.resume()
-  }
-
-  private func tryLoadingHostLogo() {
-    if
-      let host = lastHost,
-      !host.isEmpty,
-      let id = systemInfo?.domain.logoResourceId,
-      let url = URL(string: "http://\(host)/resource/\(id)")
-    {
-      loadHostLogo(url)
-    } else {
-      hostLogo = nil
-    }
-  }
-
-  private func updateField(_ field: Field, _ title: String) {
-    field.label.text = "\(title):"
-    field.textField.placeholder = title
-    field.label.widthAnchor /==/ labelWidth
-  }
-
-  private func updateUI() {
-    headerTitle.text = systemInfo?.domain.name ?? "🎃 Murk in Models 🎃"
-
-    updateField(userName, fieldLabels[0])
-    updateField(password, fieldLabels[1])
-    updateField(host, fieldLabels[2])
-
-    version.text = "Version: MaVC-1"
-  }
-}
-
-extension LoginViewController {
-  @objc private func hostDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.hostDC-1: '\(String(describing: tf.text))'")
-    guard
-      let host = tf.text,
-      host != lastHost,
-      let url = URL(string: "http://\(host)/systemInfo")
-    else {
-      return
-    }
-    /**/print("ИГР LoginVC.hostDC-2: '\(String(describing: tf.text))'")
-    lastHost = host
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-      // Удостоверяемся, что редактирование прекратилось.
-      guard
-        let self = self,
-        host == self.lastHost
-      else {
-        return
-      }
-      self.loadSystemInfo(url)
-    }
-  }
-
-  @objc private func passwordDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.passwordDC: '\(String(describing: tf.text))'")
-  }
-
-  @objc private func userNameDidChange(tf: UITextField) {
-    /**/print("ИГР LoginVC.userNDC: '\(String(describing: tf.text))'")
   }
 }
