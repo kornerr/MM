@@ -12,13 +12,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   ) -> Bool {
     let vc = UIViewController()
     vc.view.backgroundColor = .white
-
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.rootViewController = vc
     window?.makeKeyAndVisible()
-
     loginS = Login.Service()
-
     return true
   }
 }
