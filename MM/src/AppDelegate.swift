@@ -11,15 +11,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = ViewController()
+    let vc = UIViewController()
+    vc.view.backgroundColor = .white
+    window?.rootViewController = vc
     window?.makeKeyAndVisible()
-    setupLogin()
-    return true
-  }
-}
-
-extension AppDelegate {
-  private func setupLogin() {
     loginS = Login.Service()
+    return true
   }
 }
